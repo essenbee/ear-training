@@ -79,6 +79,17 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Sounds\Chords\Strum1\AChordSingleStrum.wav" />
+    <Content Include="Sounds\Chords\Strum1\DChordSingleStrum.wav" />
+    <Content Include="Sounds\Chords\Strum1\EChordSingleStrum.wav" />
+    <Content Include="Sounds\Chords\Strum2\AChordTwoStrums.wav" />
+    <Content Include="Sounds\Chords\Strum2\DChordTwoStrums.wav" />
+    <Content Include="Sounds\Chords\Strum2\EChordTwoStrums.wav" />
+    <Content Include="Sounds\Chords\Strum4\AChordFourStrums.wav" />
+    <Content Include="Sounds\Chords\Strum4\DChordFourStrums.wav" />
+    <Content Include="Sounds\Chords\Strum4\EChordFourStrums.wav" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
