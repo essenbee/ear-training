@@ -89,15 +89,15 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Sounds\Chords\Strum1\AChordSingleStrum.wav" />
-    <EmbeddedResource Include="Sounds\Chords\Strum1\DChordSingleStrum.wav" />
-    <EmbeddedResource Include="Sounds\Chords\Strum1\EChordSingleStrum.wav" />
-    <EmbeddedResource Include="Sounds\Chords\Strum2\AChordTwoStrums.wav" />
-    <EmbeddedResource Include="Sounds\Chords\Strum2\DChordTwoStrums.wav" />
-    <EmbeddedResource Include="Sounds\Chords\Strum2\EChordTwoStrums.wav" />
-    <EmbeddedResource Include="Sounds\Chords\Strum4\AChordFourStrums.wav" />
-    <EmbeddedResource Include="Sounds\Chords\Strum4\DChordFourStrums.wav" />
-    <EmbeddedResource Include="Sounds\Chords\Strum4\EChordFourStrums.wav" />
+    <Content Include="Sounds\Chords\Strum1\AChordSingleStrum.wav" />
+    <Content Include="Sounds\Chords\Strum1\DChordSingleStrum.wav" />
+    <Content Include="Sounds\Chords\Strum1\EChordSingleStrum.wav" />
+    <Content Include="Sounds\Chords\Strum2\AChordTwoStrums.wav" />
+    <Content Include="Sounds\Chords\Strum2\DChordTwoStrums.wav" />
+    <Content Include="Sounds\Chords\Strum2\EChordTwoStrums.wav" />
+    <Content Include="Sounds\Chords\Strum4\AChordFourStrums.wav" />
+    <Content Include="Sounds\Chords\Strum4\DChordFourStrums.wav" />
+    <Content Include="Sounds\Chords\Strum4\EChordFourStrums.wav" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Sounds\Intervals\" />

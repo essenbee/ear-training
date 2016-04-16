@@ -64,12 +64,14 @@ namespace EarTraining
                 }
             };
 
+            var numStrums = 4;
+
             var soundFiles = new[] 
             {
-                AMajor.AudioStreams[4],
-                DMajor.AudioStreams[4],
-                EMajor.AudioStreams[4],
-                AMajor.AudioStreams[4],
+                AMajor.AudioStreams[numStrums],
+                DMajor.AudioStreams[numStrums],
+                EMajor.AudioStreams[numStrums],
+                AMajor.AudioStreams[numStrums],
             };
             foreach (var soundFile in soundFiles)
             {
