@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using NAudio.Wave;
 using System.Threading;
+using EarTraining.Classes;
+using System.IO;
 
 namespace EarTraining
 {
@@ -26,12 +28,48 @@ namespace EarTraining
 
         private void play_Click(object sender, EventArgs e)
         {
+            var AMajor = new Chord
+            {
+                Name = "A major",
+                Quality = ChordQuality.Major,
+                AudioStreams = new Dictionary<int, UnmanagedMemoryStream>
+                {
+                    {4, Properties.Resources.AChordFourStrums },
+                    {2, Properties.Resources.AChordTwoStrums },
+                    {1, Properties.Resources.AChordSingleStrum }
+                }
+            };
+
+            var DMajor = new Chord
+            {
+                Name = "D major",
+                Quality = ChordQuality.Major,
+                AudioStreams = new Dictionary<int, UnmanagedMemoryStream>
+                {
+                    {4, Properties.Resources.DChordFourStrums },
+                    {2, Properties.Resources.DChordTwoStrums },
+                    {1, Properties.Resources.DChordSingleStrum }
+                }
+            };
+
+            var EMajor = new Chord
+            {
+                Name = "E major",
+                Quality = ChordQuality.Major,
+                AudioStreams = new Dictionary<int, UnmanagedMemoryStream>
+                {
+                    {4, Properties.Resources.EChordFourStrums },
+                    {2, Properties.Resources.EChordTwoStrums },
+                    {1, Properties.Resources.EChordSingleStrum }
+                }
+            };
+
             var soundFiles = new[] 
             {
-                Properties.Resources.AChordFourStrums,
-                Properties.Resources.DChordFourStrums,
-                Properties.Resources.EChordFourStrums,
-                Properties.Resources.AChordFourStrums,
+                AMajor.AudioStreams[4],
+                DMajor.AudioStreams[4],
+                EMajor.AudioStreams[4],
+                AMajor.AudioStreams[4],
             };
             foreach (var soundFile in soundFiles)
             {
