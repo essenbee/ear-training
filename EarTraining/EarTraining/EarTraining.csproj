@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>EarTraining</RootNamespace>
     <AssemblyName>EarTraining</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,6 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NAudio, Version=1.7.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.1.7.3\lib\net35\NAudio.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -58,14 +63,16 @@
       <DependentUpon>MainMenuForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -80,15 +87,15 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Sounds\Chords\Strum1\AChordSingleStrum.wav" />
-    <Content Include="Sounds\Chords\Strum1\DChordSingleStrum.wav" />
-    <Content Include="Sounds\Chords\Strum1\EChordSingleStrum.wav" />
-    <Content Include="Sounds\Chords\Strum2\AChordTwoStrums.wav" />
-    <Content Include="Sounds\Chords\Strum2\DChordTwoStrums.wav" />
-    <Content Include="Sounds\Chords\Strum2\EChordTwoStrums.wav" />
-    <Content Include="Sounds\Chords\Strum4\AChordFourStrums.wav" />
-    <Content Include="Sounds\Chords\Strum4\DChordFourStrums.wav" />
-    <Content Include="Sounds\Chords\Strum4\EChordFourStrums.wav" />
+    <EmbeddedResource Include="Sounds\Chords\Strum1\AChordSingleStrum.wav" />
+    <EmbeddedResource Include="Sounds\Chords\Strum1\DChordSingleStrum.wav" />
+    <EmbeddedResource Include="Sounds\Chords\Strum1\EChordSingleStrum.wav" />
+    <EmbeddedResource Include="Sounds\Chords\Strum2\AChordTwoStrums.wav" />
+    <EmbeddedResource Include="Sounds\Chords\Strum2\DChordTwoStrums.wav" />
+    <EmbeddedResource Include="Sounds\Chords\Strum2\EChordTwoStrums.wav" />
+    <EmbeddedResource Include="Sounds\Chords\Strum4\AChordFourStrums.wav" />
+    <EmbeddedResource Include="Sounds\Chords\Strum4\DChordFourStrums.wav" />
+    <EmbeddedResource Include="Sounds\Chords\Strum4\EChordFourStrums.wav" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Sounds\Intervals\" />
