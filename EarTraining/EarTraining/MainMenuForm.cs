@@ -26,22 +26,31 @@ namespace EarTraining
 
         private void play_Click(object sender, EventArgs e)
         {
-            var soundFile = Properties.Resources.AChordFourStrums;
-            using (var wfr = new WaveFileReader(soundFile))
+            var soundFiles = new[] 
             {
-                using (WaveChannel32 wc = new WaveChannel32(wfr) { PadWithZeroes = false })
+                Properties.Resources.AChordFourStrums,
+                Properties.Resources.DChordFourStrums,
+                Properties.Resources.EChordFourStrums,
+                Properties.Resources.AChordFourStrums,
+            };
+            foreach (var soundFile in soundFiles)
+            {
+                using (var wfr = new WaveFileReader(soundFile))
                 {
-                    using (var audioOutput = new DirectSoundOut())
+                    using (WaveChannel32 wc = new WaveChannel32(wfr) { PadWithZeroes = false })
                     {
-                        audioOutput.Init(wc);
-                        audioOutput.Play();
-
-                        while (audioOutput.PlaybackState != PlaybackState.Stopped)
+                        using (var audioOutput = new DirectSoundOut())
                         {
-                            Thread.Sleep(20);
-                        }
+                            audioOutput.Init(wc);
+                            audioOutput.Play();
 
-                        audioOutput.Stop();
+                            while (audioOutput.PlaybackState != PlaybackState.Stopped)
+                            {
+                                Thread.Sleep(20);
+                            }
+
+                            audioOutput.Stop();
+                        }
                     }
                 }
             }
