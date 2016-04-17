@@ -1,16 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using NAudio.Wave;
-using System.Threading;
 using EarTraining.Classes;
-using System.IO;
 
 namespace EarTraining
 {
@@ -30,70 +21,51 @@ namespace EarTraining
         {
             var AMajor = new Chord
             {
-                Name = "A major",
+                Name = "A",
                 Quality = ChordQuality.Major,
-                AudioStreams = new Dictionary<int, UnmanagedMemoryStream>
+                AudioFiles = new Dictionary<int, string>
                 {
-                    {4, Properties.Resources.AChordFourStrums },
-                    {2, Properties.Resources.AChordTwoStrums },
-                    {1, Properties.Resources.AChordSingleStrum }
+                    {4, "AChordFourStrums" },
+                    {2, "AChordTwoStrums" },
+                    {1, "AChordSingleStrum" }
                 }
             };
 
             var DMajor = new Chord
             {
-                Name = "D major",
+                Name = "D",
                 Quality = ChordQuality.Major,
-                AudioStreams = new Dictionary<int, UnmanagedMemoryStream>
+                AudioFiles = new Dictionary<int, string>
                 {
-                    {4, Properties.Resources.DChordFourStrums },
-                    {2, Properties.Resources.DChordTwoStrums },
-                    {1, Properties.Resources.DChordSingleStrum }
+                    {4, "DChordFourStrums" },
+                    {2, "DChordTwoStrums" },
+                    {1, "DChordSingleStrum" }
                 }
             };
 
             var EMajor = new Chord
             {
-                Name = "E major",
+                Name = "E",
                 Quality = ChordQuality.Major,
-                AudioStreams = new Dictionary<int, UnmanagedMemoryStream>
+                AudioFiles = new Dictionary<int, string>
                 {
-                    {4, Properties.Resources.EChordFourStrums },
-                    {2, Properties.Resources.EChordTwoStrums },
-                    {1, Properties.Resources.EChordSingleStrum }
+                    {4, "EChordFourStrums" },
+                    {2, "EChordTwoStrums" },
+                    {1, "EChordSingleStrum" }
                 }
             };
 
-            var numStrums = 4;
-
-            var soundFiles = new[] 
+            var chordProgression = new[] 
             {
-                AMajor.AudioStreams[numStrums],
-                DMajor.AudioStreams[numStrums],
-                EMajor.AudioStreams[numStrums],
-                AMajor.AudioStreams[numStrums],
+                AMajor,
+                DMajor,
+                EMajor,
+                AMajor,
             };
-            foreach (var soundFile in soundFiles)
-            {
-                using (var wfr = new WaveFileReader(soundFile))
-                {
-                    using (WaveChannel32 wc = new WaveChannel32(wfr) { PadWithZeroes = false })
-                    {
-                        using (var audioOutput = new DirectSoundOut())
-                        {
-                            audioOutput.Init(wc);
-                            audioOutput.Play();
 
-                            while (audioOutput.PlaybackState != PlaybackState.Stopped)
-                            {
-                                Thread.Sleep(20);
-                            }
+            var player = new Player(chordProgression);
+            player.PlayChords();
 
-                            audioOutput.Stop();
-                        }
-                    }
-                }
-            }
         }
     }
 }
