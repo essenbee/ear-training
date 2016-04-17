@@ -8,8 +8,28 @@ namespace EarTraining.Classes
     {
         public string Name { get; set; }
         public ChordQuality Quality { get; set; }
-        public IDictionary<int, string> AudioFiles { get; set; }
 
+        private const string Strums4 = "FourStrums";
+        private const string Strums2 = "TwoStrums";
+        private const string Strums1 = "SingleStrums";
+
+        public string GetAudioResourceName(int numStrums = 4)
+        {
+            var strums = string.Empty;
+            switch (numStrums)
+            {
+                case 2 : strums = Strums2;
+                    break;
+                case 1:
+                    strums = Strums1;
+                    break;
+                default:
+                    strums = Strums4;
+                    break;
+            } 
+
+            return $"{Name}Chord{strums}";
+        }
 
         public override bool Equals(Object obj)
         {

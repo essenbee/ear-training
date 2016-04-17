@@ -3,6 +3,7 @@ using NAudio.Wave;
 using System.Threading;
 using EarTraining.Classes;
 using EarTraining.Properties;
+using System;
 
 namespace EarTraining
 {
@@ -32,23 +33,25 @@ namespace EarTraining
         {
             foreach (var chord in chordProgression)
             {
-                var soundFile = Resources.ResourceManager.GetStream(chord.AudioFiles[numStrums]);
-
-                using (var wfr = new WaveFileReader(soundFile))
+                var soundFile = Resources.ResourceManager.GetStream(chord.GetAudioResourceName(numStrums));
+                if (soundFile != null)
                 {
-                    using (WaveChannel32 wc = new WaveChannel32(wfr) { PadWithZeroes = false })
+                    using (var wfr = new WaveFileReader(soundFile))
                     {
-                        using (var audioOutput = new DirectSoundOut())
+                        using (WaveChannel32 wc = new WaveChannel32(wfr) { PadWithZeroes = false })
                         {
-                            audioOutput.Init(wc);
-                            audioOutput.Play();
-
-                            while (audioOutput.PlaybackState != PlaybackState.Stopped)
+                            using (var audioOutput = new DirectSoundOut())
                             {
-                                Thread.Sleep(20);
-                            }
+                                audioOutput.Init(wc);
+                                audioOutput.Play();
 
-                            audioOutput.Stop();
+                                while (audioOutput.PlaybackState != PlaybackState.Stopped)
+                                {
+                                    Thread.Sleep(20);
+                                }
+
+                                audioOutput.Stop();
+                            }
                         }
                     }
                 }

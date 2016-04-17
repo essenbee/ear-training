@@ -23,36 +23,18 @@ namespace EarTraining
             {
                 Name = "A",
                 Quality = ChordQuality.Major,
-                AudioFiles = new Dictionary<int, string>
-                {
-                    {4, "AChordFourStrums" },
-                    {2, "AChordTwoStrums" },
-                    {1, "AChordSingleStrum" }
-                }
             };
 
             var DMajor = new Chord
             {
                 Name = "D",
                 Quality = ChordQuality.Major,
-                AudioFiles = new Dictionary<int, string>
-                {
-                    {4, "DChordFourStrums" },
-                    {2, "DChordTwoStrums" },
-                    {1, "DChordSingleStrum" }
-                }
             };
 
             var EMajor = new Chord
             {
                 Name = "E",
                 Quality = ChordQuality.Major,
-                AudioFiles = new Dictionary<int, string>
-                {
-                    {4, "EChordFourStrums" },
-                    {2, "EChordTwoStrums" },
-                    {1, "EChordSingleStrum" }
-                }
             };
 
             var chordProgression = new[] 
@@ -63,9 +45,15 @@ namespace EarTraining
                 AMajor,
             };
 
-            var player = new Player(chordProgression);
-            player.PlayChords();
-
+            try
+            {
+                var player = new Player(chordProgression);
+                player.PlayChords();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
