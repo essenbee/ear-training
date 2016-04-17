@@ -55,5 +55,11 @@ namespace EarTraining
                 throw;
             }
         }
+
+        private void chordProgressions_Click(object sender, EventArgs e)
+        {
+            var cprForm = new CprForm();
+            cprForm.Show();
+        }
     }
 }

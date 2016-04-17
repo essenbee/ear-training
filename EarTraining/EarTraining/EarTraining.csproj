@@ -57,6 +57,12 @@
   <ItemGroup>
     <Compile Include="Classes\Chord.cs" />
     <Compile Include="Classes\ChordQuality.cs" />
+    <Compile Include="CprForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CprForm.Designer.cs">
+      <DependentUpon>CprForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainMenuForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -66,6 +72,9 @@
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CprForm.resx">
+      <DependentUpon>CprForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainMenuForm.resx">
       <DependentUpon>MainMenuForm.cs</DependentUpon>
     </EmbeddedResource>
