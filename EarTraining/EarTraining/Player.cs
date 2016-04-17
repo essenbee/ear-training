@@ -34,13 +34,13 @@ namespace EarTraining
         {
             foreach (var chord in chordProgression)
             {
-                PlayAudioFile(Resources.ResourceManager.GetStream(chord.GetAudioResourceName(numStrums), 
+                PlayAudioResource(Resources.ResourceManager.GetStream(chord.GetAudioResourceName(numStrums), 
                     CultureInfo.InvariantCulture));
 
             }
         }
 
-        private void PlayAudioFile(UnmanagedMemoryStream soundFile)
+        private void PlayAudioResource(UnmanagedMemoryStream soundFile)
         {
             if (soundFile != null)
             {
