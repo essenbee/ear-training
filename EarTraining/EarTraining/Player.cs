@@ -1,4 +1,4 @@
-﻿using System.IO;
+﻿using System.Globalization;
 using NAudio.Wave;
 using System.Threading;
 using EarTraining.Classes;
@@ -33,7 +33,7 @@ namespace EarTraining
         {
             foreach (var chord in chordProgression)
             {
-                var soundFile = Resources.ResourceManager.GetStream(chord.GetAudioResourceName(numStrums));
+                var soundFile = Resources.ResourceManager.GetStream(chord.GetAudioResourceName(numStrums), CultureInfo.InvariantCulture);
                 if (soundFile != null)
                 {
                     using (var wfr = new WaveFileReader(soundFile))
