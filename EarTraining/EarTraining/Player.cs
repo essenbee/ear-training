@@ -4,6 +4,7 @@ using System.Threading;
 using EarTraining.Classes;
 using EarTraining.Properties;
 using System;
+using System.IO;
 
 namespace EarTraining
 {
@@ -33,25 +34,31 @@ namespace EarTraining
         {
             foreach (var chord in chordProgression)
             {
-                var soundFile = Resources.ResourceManager.GetStream(chord.GetAudioResourceName(numStrums), CultureInfo.InvariantCulture);
-                if (soundFile != null)
+                PlayAudioFile(Resources.ResourceManager.GetStream(chord.GetAudioResourceName(numStrums), 
+                    CultureInfo.InvariantCulture));
+
+            }
+        }
+
+        private void PlayAudioFile(UnmanagedMemoryStream soundFile)
+        {
+            if (soundFile != null)
+            {
+                using (var wfr = new WaveFileReader(soundFile))
                 {
-                    using (var wfr = new WaveFileReader(soundFile))
+                    using (WaveChannel32 wc = new WaveChannel32(wfr) { PadWithZeroes = false })
                     {
-                        using (WaveChannel32 wc = new WaveChannel32(wfr) { PadWithZeroes = false })
+                        using (var audioOutput = new DirectSoundOut())
                         {
-                            using (var audioOutput = new DirectSoundOut())
+                            audioOutput.Init(wc);
+                            audioOutput.Play();
+
+                            while (audioOutput.PlaybackState != PlaybackState.Stopped)
                             {
-                                audioOutput.Init(wc);
-                                audioOutput.Play();
-
-                                while (audioOutput.PlaybackState != PlaybackState.Stopped)
-                                {
-                                    Thread.Sleep(20);
-                                }
-
-                                audioOutput.Stop();
+                                Thread.Sleep(20);
                             }
+
+                            audioOutput.Stop();
                         }
                     }
                 }
