@@ -127,6 +127,15 @@
   <data name="AChordTwoStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Sounds\Chords\Strum2\AChordTwoStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="AmChordFourStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sounds\Chords\Strum4\AmChordFourStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="AmChordSingleStrum" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sounds\Chords\Strum1\AmChordSingleStrum.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="AmChordTwoStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sounds\Chords\Strum2\AmChordTwoStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="DChordFourStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Sounds\Chords\Strum4\DChordFourStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -135,6 +144,15 @@
   </data>
   <data name="DChordTwoStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Sounds\Chords\Strum2\DChordTwoStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="DmChordFourStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sounds\Chords\Strum4\DmChordFourStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="DmChordSingleStrum" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sounds\Chords\Strum1\DmChordSingleStrum.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="DmChordTwoStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sounds\Chords\Strum2\DmChordTwoStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="EChordFourStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Sounds\Chords\Strum4\EChordFourStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

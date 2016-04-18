@@ -40,6 +40,18 @@ namespace EarTraining
                 Quality = ChordQuality.Major,
             };
 
+            var AMinir = new Chord
+            {
+                Name = "Am",
+                Quality = ChordQuality.Minor,
+            };
+
+            var DMinor = new Chord
+            {
+                Name = "Dm",
+                Quality = ChordQuality.Minor,
+            };
+
             var chordProgression = new[] 
             {
                 AMajor,
@@ -53,9 +65,9 @@ namespace EarTraining
                 var player = new Player(chordProgression);
                 player.PlayChords();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                logger.Error(ex, "EXCEPTION: ");
             }
         }
 

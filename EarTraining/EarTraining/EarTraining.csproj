@@ -110,13 +110,19 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Sounds\Chords\Strum1\AChordSingleStrum.wav" />
+    <Content Include="Sounds\Chords\Strum1\AmChordSingleStrum.wav" />
     <Content Include="Sounds\Chords\Strum1\DChordSingleStrum.wav" />
+    <Content Include="Sounds\Chords\Strum1\DmChordSingleStrum.wav" />
     <Content Include="Sounds\Chords\Strum1\EChordSingleStrum.wav" />
     <Content Include="Sounds\Chords\Strum2\AChordTwoStrums.wav" />
+    <None Include="Sounds\Chords\Strum2\AmChordTwoStrums.wav" />
     <Content Include="Sounds\Chords\Strum2\DChordTwoStrums.wav" />
+    <None Include="Sounds\Chords\Strum2\DmChordTwoStrums.wav" />
     <Content Include="Sounds\Chords\Strum2\EChordTwoStrums.wav" />
     <Content Include="Sounds\Chords\Strum4\AChordFourStrums.wav" />
+    <None Include="Sounds\Chords\Strum4\AmChordFourStrums.wav" />
     <Content Include="Sounds\Chords\Strum4\DChordFourStrums.wav" />
+    <None Include="Sounds\Chords\Strum4\DmChordFourStrums.wav" />
     <Content Include="Sounds\Chords\Strum4\EChordFourStrums.wav" />
   </ItemGroup>
   <ItemGroup>

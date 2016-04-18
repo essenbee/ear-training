@@ -90,6 +90,33 @@ namespace EarTraining.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
+        public static System.IO.UnmanagedMemoryStream AmChordFourStrums {
+            get {
+                return ResourceManager.GetStream("AmChordFourStrums", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream AmChordSingleStrum {
+            get {
+                return ResourceManager.GetStream("AmChordSingleStrum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream AmChordTwoStrums {
+            get {
+                return ResourceManager.GetStream("AmChordTwoStrums", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
         public static System.IO.UnmanagedMemoryStream DChordFourStrums {
             get {
                 return ResourceManager.GetStream("DChordFourStrums", resourceCulture);
@@ -111,6 +138,33 @@ namespace EarTraining.Properties {
         public static System.IO.UnmanagedMemoryStream DChordTwoStrums {
             get {
                 return ResourceManager.GetStream("DChordTwoStrums", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream DmChordFourStrums {
+            get {
+                return ResourceManager.GetStream("DmChordFourStrums", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream DmChordSingleStrum {
+            get {
+                return ResourceManager.GetStream("DmChordSingleStrum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream DmChordTwoStrums {
+            get {
+                return ResourceManager.GetStream("DmChordTwoStrums", resourceCulture);
             }
         }
         
