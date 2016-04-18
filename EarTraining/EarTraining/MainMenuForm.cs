@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using EarTraining.Classes;
+using NLog;
 
 namespace EarTraining
 {
     public partial class MainMenuForm : Form
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         public MainMenuForm()
         {
             InitializeComponent();

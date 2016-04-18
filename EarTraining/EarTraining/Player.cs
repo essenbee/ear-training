@@ -5,11 +5,13 @@ using EarTraining.Classes;
 using EarTraining.Properties;
 using System;
 using System.IO;
+using NLog;
 
 namespace EarTraining
 {
     public class Player
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         Chord[] _chordProgression;
 
         public Player()
