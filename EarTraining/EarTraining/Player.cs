@@ -3,39 +3,41 @@ using NAudio.Wave;
 using System.Threading;
 using EarTraining.Classes;
 using EarTraining.Properties;
-using System;
 using System.IO;
 using NLog;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EarTraining
 {
     public class Player
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
-        Chord[] _chordProgression;
+        IEnumerable<Chord> _chordProgression;
 
         public Player()
         {
 
         }
 
-        public Player(Chord[] chordProgression)
+        public Player(IEnumerable<Chord> chordProgression)
         {
             _chordProgression = chordProgression;
         }
 
         public void PlayChords(int numStrums = 4)
         {
-            if (_chordProgression != null && _chordProgression.Length > 0)
+            if (_chordProgression != null && _chordProgression.Count() > 0)
             {
                 PlayChords(_chordProgression, numStrums);
             }
         }
 
-        public void PlayChords(Chord[] chordProgression, int numStrums = 4)
+        public void PlayChords(IEnumerable<Chord> chordProgression, int numStrums = 4)
         {
             foreach (var chord in chordProgression)
             {
+                logger.Debug($"Playing chord {chord.Name}...");
                 PlayAudioResource(Resources.ResourceManager.GetStream(chord.GetAudioResourceName(numStrums), 
                     CultureInfo.InvariantCulture));
 
@@ -64,6 +66,10 @@ namespace EarTraining
                         }
                     }
                 }
+            }
+            else
+            {
+                logger.Debug("    * soundFile was null - check Resources!");
             }
         }
     }

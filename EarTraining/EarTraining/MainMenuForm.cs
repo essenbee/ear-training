@@ -70,7 +70,7 @@ namespace EarTraining
                 Quality = ChordQuality.Minor,
             };
 
-            var chordProgression = new[] 
+            var chordProgression = new List<Chord> 
             {
                 CMajor,
                 DMinor,

@@ -10,6 +10,9 @@ namespace EarTraining.Classes
     {
         Major = 1,
         Minor = 2,
-        Dominant7th = 3
+        Dominant7th = 3,
+        Major7th = 4,
+        Minor7th = 5,
+        Minor7Flat5 = 6,
     }
 }
