@@ -34,13 +34,25 @@ namespace EarTraining
                 Quality = ChordQuality.Major,
             };
 
+            var CMajor = new Chord
+            {
+                Name = "C",
+                Quality = ChordQuality.Major,
+            };
+
+            var GMajor = new Chord
+            {
+                Name = "G",
+                Quality = ChordQuality.Major,
+            };
+
             var EMajor = new Chord
             {
                 Name = "E",
                 Quality = ChordQuality.Major,
             };
 
-            var AMinir = new Chord
+            var AMinor = new Chord
             {
                 Name = "Am",
                 Quality = ChordQuality.Minor,
@@ -52,12 +64,18 @@ namespace EarTraining
                 Quality = ChordQuality.Minor,
             };
 
+            var EMinor = new Chord
+            {
+                Name = "Em",
+                Quality = ChordQuality.Minor,
+            };
+
             var chordProgression = new[] 
             {
-                AMajor,
-                DMajor,
-                EMajor,
-                AMajor,
+                CMajor,
+                DMinor,
+                EMinor,
+                CMajor,
             };
 
             try

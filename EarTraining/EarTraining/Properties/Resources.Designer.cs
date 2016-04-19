@@ -117,6 +117,33 @@ namespace EarTraining.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
+        public static System.IO.UnmanagedMemoryStream CChordFourStrums {
+            get {
+                return ResourceManager.GetStream("CChordFourStrums", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream CChordSingleStrum {
+            get {
+                return ResourceManager.GetStream("CChordSingleStrum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream CChordTwoStrums {
+            get {
+                return ResourceManager.GetStream("CChordTwoStrums", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
         public static System.IO.UnmanagedMemoryStream DChordFourStrums {
             get {
                 return ResourceManager.GetStream("DChordFourStrums", resourceCulture);
@@ -192,6 +219,60 @@ namespace EarTraining.Properties {
         public static System.IO.UnmanagedMemoryStream EChordTwoStrums {
             get {
                 return ResourceManager.GetStream("EChordTwoStrums", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream EmChordFourStrums {
+            get {
+                return ResourceManager.GetStream("EmChordFourStrums", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream EmChordSingleStrum {
+            get {
+                return ResourceManager.GetStream("EmChordSingleStrum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream EmChordTwoStrums {
+            get {
+                return ResourceManager.GetStream("EmChordTwoStrums", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream GChordFourStrums {
+            get {
+                return ResourceManager.GetStream("GChordFourStrums", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream GChordSingleStrum {
+            get {
+                return ResourceManager.GetStream("GChordSingleStrum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream GChordTwoStrums {
+            get {
+                return ResourceManager.GetStream("GChordTwoStrums", resourceCulture);
             }
         }
     }
