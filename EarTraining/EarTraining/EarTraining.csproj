@@ -72,9 +72,14 @@
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Sounds\Chords\Strum1\B7ChordSingleStrum.wav" />
     <Content Include="Sounds\Chords\Strum1\EmChordSingleStrum.wav" />
+    <Content Include="Sounds\Chords\Strum1\Fmaj7ChordSingleStrum.wav" />
+    <Content Include="Sounds\Chords\Strum1\G7ChordSingleStrum.wav" />
     <Content Include="Sounds\Chords\Strum2\EmChordTwoStrums.wav" />
     <None Include="Sounds\Chords\Strum4\EmChordFourStrums.wav" />
+    <Content Include="Sounds\Chords\Strum2\Fmaj7ChordTwoStrums.wav" />
+    <Content Include="Sounds\Chords\Strum4\Fmaj7ChordFourStrums.wav" />
     <Content Include="Sounds\Chords\Strum4\GChordFourStrums.wav" />
     <EmbeddedResource Include="CprForm.resx">
       <DependentUpon>CprForm.cs</DependentUpon>
