@@ -118,6 +118,15 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="A7ChordFourStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sounds\Chords\Strum4\A7ChordFourStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="A7ChordSingleStrum" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sounds\Chords\Strum1\A7ChordSingleStrum.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="A7ChordTwoStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sounds\Chords\Strum2\A7ChordTwoStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="AChordFourStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Sounds\Chords\Strum4\AChordFourStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -136,6 +145,24 @@
   <data name="AmChordTwoStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Sounds\Chords\Strum2\AmChordTwoStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="B7ChordFourStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sounds\Chords\Strum4\B7ChordFourStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="B7ChordSingleStrum" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sounds\Chords\Strum1\B7ChordSingleStrum.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="B7ChordTwoStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sounds\Chords\Strum2\B7ChordTwoStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="C7ChordFourStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sounds\Chords\Strum4\C7ChordFourStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="C7ChordSingleStrum" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sounds\Chords\Strum1\C7ChordSingleStrum.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="C7ChordTwoStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sounds\Chords\Strum2\C7ChordTwoStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="CChordFourStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Sounds\Chords\Strum4\CChordFourStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -144,6 +171,15 @@
   </data>
   <data name="CChordTwoStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Sounds\Chords\Strum2\CChordTwoStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="D7ChordFourStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sounds\Chords\Strum4\D7ChordFourStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="D7ChordSingleStrum" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sounds\Chords\Strum1\D7ChordSingleStrum.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="D7ChordTwoStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sounds\Chords\Strum2\D7ChordTwoStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="DChordFourStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Sounds\Chords\Strum4\DChordFourStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -163,6 +199,15 @@
   <data name="DmChordTwoStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Sounds\Chords\Strum2\DmChordTwoStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="E7ChordFourStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sounds\Chords\Strum4\E7ChordFourStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="E7ChordSingleStrum" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sounds\Chords\Strum1\E7ChordSingleStrum.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="E7ChordTwoStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sounds\Chords\Strum2\E7ChordTwoStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="EChordFourStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Sounds\Chords\Strum4\EChordFourStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -180,6 +225,24 @@
   </data>
   <data name="EmChordTwoStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Sounds\Chords\Strum2\EmChordTwoStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Fmaj7ChordFourStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sounds\Chords\Strum4\Fmaj7ChordFourStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Fmaj7ChordSingleStrum" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sounds\Chords\Strum1\Fmaj7ChordSingleStrum.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Fmaj7ChordTwoStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sounds\Chords\Strum2\Fmaj7ChordTwoStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="G7ChordFourStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sounds\Chords\Strum4\G7ChordFourStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="G7ChordSingleStrum" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sounds\Chords\Strum1\G7ChordSingleStrum.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="G7ChordTwoStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sounds\Chords\Strum2\G7ChordTwoStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="GChordFourStrums" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Sounds\Chords\Strum4\GChordFourStrums.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

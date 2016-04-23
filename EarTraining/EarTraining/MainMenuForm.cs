@@ -22,15 +22,12 @@ namespace EarTraining
 
         private void play_Click(object sender, EventArgs e)
         {
+            // Major Chords
+            // ============
+
             var AMajor = new Chord
             {
                 Name = "A",
-                Quality = ChordQuality.Major,
-            };
-
-            var DMajor = new Chord
-            {
-                Name = "D",
                 Quality = ChordQuality.Major,
             };
 
@@ -40,9 +37,9 @@ namespace EarTraining
                 Quality = ChordQuality.Major,
             };
 
-            var GMajor = new Chord
+            var DMajor = new Chord
             {
-                Name = "G",
+                Name = "D",
                 Quality = ChordQuality.Major,
             };
 
@@ -51,6 +48,15 @@ namespace EarTraining
                 Name = "E",
                 Quality = ChordQuality.Major,
             };
+
+            var GMajor = new Chord
+            {
+                Name = "G",
+                Quality = ChordQuality.Major,
+            };
+
+            // Minor Chords
+            // ============
 
             var AMinor = new Chord
             {
@@ -70,12 +76,62 @@ namespace EarTraining
                 Quality = ChordQuality.Minor,
             };
 
+            // Dominant 7th Chords
+            // ===================
+
+            var A7 = new Chord
+            {
+                Name = "A7",
+                Quality = ChordQuality.Dominant7th,
+            };
+
+            var B7 = new Chord
+            {
+                Name = "B7",
+                Quality = ChordQuality.Dominant7th,
+            };
+
+            var C7 = new Chord
+            {
+                Name = "C7",
+                Quality = ChordQuality.Dominant7th,
+            };
+
+            var D7 = new Chord
+            {
+                Name = "D7",
+                Quality = ChordQuality.Dominant7th,
+            };
+
+            var E7 = new Chord
+            {
+                Name = "E7",
+                Quality = ChordQuality.Dominant7th,
+            };
+
+            var G7 = new Chord
+            {
+                Name = "G7",
+                Quality = ChordQuality.Dominant7th,
+            };
+
+            // Major 7th Chords
+            // ================
+
+            var FMajor7 = new Chord
+            {
+                Name = "Fmaj7",
+                Quality = ChordQuality.Major7th,
+            };
+
+            // =======================================================
+
             var chordProgression = new List<Chord> 
             {
                 CMajor,
                 DMinor,
-                EMinor,
-                CMajor,
+                E7,
+                FMajor7,
             };
 
             try
