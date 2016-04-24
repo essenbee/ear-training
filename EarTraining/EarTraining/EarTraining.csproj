@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="Classes\Chord.cs" />
     <Compile Include="Classes\ChordQuality.cs" />
+    <Compile Include="Classes\ExtensionMethods.cs" />
     <Compile Include="CprForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,6 +73,7 @@
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CryptoRandom.cs" />
     <Content Include="Sounds\Chords\Strum1\A7ChordSingleStrum.wav" />
     <Content Include="Sounds\Chords\Strum1\B7ChordSingleStrum.wav" />
     <Content Include="Sounds\Chords\Strum1\C7ChordSingleStrum.wav" />

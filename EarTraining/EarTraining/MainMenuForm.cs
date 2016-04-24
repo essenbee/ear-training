@@ -126,13 +126,37 @@ namespace EarTraining
 
             // =======================================================
 
-            var chordProgression = new List<Chord> 
+            var chordPalette = new List<Chord>
             {
-                CMajor,
-                DMinor,
-                E7,
+                AMajor, CMajor, GMajor,
+                DMajor, EMajor, AMinor,
+                DMinor, EMinor,
+                D7, A7, E7, B7, G7, C7,
                 FMajor7,
             };
+
+            chordPalette.Shuffle<Chord>();
+
+            var chordProgression = new List<Chord>();
+            var rng = new CryptoRandom();
+            for (var i = 0; i < 4; i++)
+            {
+                var rnd = rng.Next(0, chordPalette.Count - 1);
+                if (i != 0)
+                {
+                    var nextChord = chordPalette[rnd];
+                    while (nextChord.Equals(chordProgression[i - 1]))
+                    {
+                        rnd = rng.Next(0, chordPalette.Count - 1);
+                        nextChord = chordPalette[rnd];
+                    }
+                    chordProgression.Add(chordPalette[rnd]);
+                }
+                else
+                {
+                    chordProgression.Add(chordPalette[rnd]);
+                }
+            }
 
             try
             {
