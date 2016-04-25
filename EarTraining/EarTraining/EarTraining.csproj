@@ -65,6 +65,7 @@
     <Compile Include="Classes\EndianHelper.cs" />
     <Compile Include="Classes\ExtensionMethods.cs" />
     <Compile Include="Classes\LittleEndianHelper.cs" />
+    <Compile Include="Classes\SoundTouchSharp.cs" />
     <Compile Include="Classes\WavData.cs" />
     <Compile Include="Classes\WavFormat.cs" />
     <Compile Include="Classes\WavHeader.cs" />
@@ -103,6 +104,9 @@
     <Content Include="Sounds\Chords\Strum2\D7ChordTwoStrums.wav" />
     <Content Include="Sounds\Chords\Strum2\E7ChordTwoStrums.wav" />
     <Content Include="Sounds\Chords\Strum2\EmChordTwoStrums.wav" />
+    <Content Include="SoundTouch.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Sounds\Chords\Strum4\EmChordFourStrums.wav" />
     <Content Include="Sounds\Chords\Strum2\Fmaj7ChordTwoStrums.wav" />
     <Content Include="Sounds\Chords\Strum2\G7ChordTwoStrums.wav" />

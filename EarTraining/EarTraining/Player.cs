@@ -18,18 +18,21 @@ namespace EarTraining
         private static Logger logger = LogManager.GetCurrentClassLogger();
         IEnumerable<Chord> _chordProgression;
         SoundTouch<TSampleType, TLongSampleType> _soundTouch;
+        SoundTouchSharp _s;
 
         private const int BuffSize = 2048;
 
         public Player()
         {
             _soundTouch = new SoundTouch<TSampleType, TLongSampleType>();
+            _s = new SoundTouchSharp();
         }
 
         public Player(IEnumerable<Chord> chordProgression)
         {
             _chordProgression = chordProgression;
             _soundTouch = new SoundTouch<TSampleType, TLongSampleType>();
+            _s = new SoundTouchSharp();
         }
 
         public void PlayChords(int numStrums, bool changeTempo, float tempoChange)
@@ -52,6 +55,7 @@ namespace EarTraining
             }
             else
             {
+                _s.CreateInstance();
                 var tempoChordProgression = new List<WavOutFile>();
                 logger.Debug($"Tempo change set to {tempoChange}...");
                 foreach (var chord in chordProgression)
@@ -72,19 +76,36 @@ namespace EarTraining
                     _soundTouch.SetSetting(SettingId.UseQuickseek, 1);
                     _soundTouch.SetSetting(SettingId.UseAntiAliasFilter, 0);
 
+                    _s.SetSampleRate(sampleRate);
+                    _s.SetChannels(channels);
+
+                    _s.SetTempoChange(tempoChange);
+                    _s.SetPitchSemiTones(0.0f);
+                    _s.SetRateChange(0.0f);
+                    _s.SetSetting(SoundTouchSharp.SoundTouchSettings.SETTING_USE_QUICKSEEK, 0);
+                    _s.SetSetting(SoundTouchSharp.SoundTouchSettings.SETTING_USE_AA_FILTER, 0);
+
                     int nSamples;
+                    uint sSamples;
                     var sampleBuffer = new TSampleType[BuffSize];
+                    var sBuffer = new float[BuffSize];
                     var buffSizeSamples = BuffSize / channels;
+                    var sBuffSizeSamples = (uint)(BuffSize / channels);
 
                     // Process samples read from the input file
                     while (!inFile.Eof())
                     {
                         // Read a chunk of samples from the input file
-                        var num = inFile.Read(sampleBuffer, BuffSize);
+                        //var num = inFile.Read(sampleBuffer, BuffSize);
+
+                        var num = inFile.Read(sBuffer, BuffSize);
+
                         nSamples = num / inFile.GetNumChannels();
+                        sSamples = (uint)(num / inFile.GetNumChannels());
 
                         // Feed the samples into SoundTouch processor
                         _soundTouch.PutSamples(sampleBuffer, nSamples);
+                        _s.PutSamples(sBuffer, sSamples);
 
                         // Read ready samples from SoundTouch processor & write them output file.
                         // NOTES:
@@ -97,21 +118,31 @@ namespace EarTraining
                         do
                         {
                             nSamples = _soundTouch.ReceiveSamples(sampleBuffer, buffSizeSamples);
-                            outFile.Write(sampleBuffer, nSamples * channels);
-                        } while (nSamples != 0);
+                            sSamples = _s.ReceiveSamples(sBuffer, sBuffSizeSamples);
+
+                            outFile.Write(sBuffer, nSamples * channels);
+                            //outFile.Write(sampleBuffer, nSamples * channels);
+                            //} while (nSamples != 0);
+                        } while (sSamples != 0);
                     }
 
                     // Now the input file is processed, yet 'flush' few last samples that are
                     // hiding in the SoundTouch's internal processing pipeline.
                     _soundTouch.Flush();
+                    _s.Flush();
+
                     do
                     {
                         nSamples = _soundTouch.ReceiveSamples(sampleBuffer, buffSizeSamples);
-                        outFile.Write(sampleBuffer, nSamples * channels);
-                    } while (nSamples != 0);
+                        sSamples = _s.ReceiveSamples(sBuffer, sBuffSizeSamples);
+
+                        outFile.Write(sBuffer, nSamples * channels);
+                        //outFile.Write(sampleBuffer, nSamples * channels);
+                        //} while (nSamples != 0);
+                    } while (sSamples != 0);
 
                     tempoChordProgression.Add(outFile);
-                    inFile?.Dispose();
+                    //inFile?.Dispose();
                 }
 
                 foreach (var outFile in tempoChordProgression)
