@@ -69,7 +69,6 @@ namespace EarTraining.Classes
         /// <summary>Finalizes & closes the WAV file.</summary>
         public void Dispose()
         {
-            FinishHeader();
             _fileStream?.Dispose();
             _fileStream = null;
         }

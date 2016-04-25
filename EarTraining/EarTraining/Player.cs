@@ -52,7 +52,7 @@ namespace EarTraining
             }
             else
             {
-                var tempoChrodProgression = new List<WavOutFile>();
+                var tempoChordProgression = new List<WavOutFile>();
                 logger.Debug($"Tempo change set to {tempoChange}...");
                 foreach (var chord in chordProgression)
                 {
@@ -70,7 +70,7 @@ namespace EarTraining
                     _soundTouch.SetPitchSemiTones(0.0f);
                     _soundTouch.SetRateChange(0.0f);
                     _soundTouch.SetSetting(SettingId.UseQuickseek, 1);
-                    _soundTouch.SetSetting(SettingId.UseAntiAliasFilter, 1);
+                    _soundTouch.SetSetting(SettingId.UseAntiAliasFilter, 0);
 
                     int nSamples;
                     var sampleBuffer = new TSampleType[BuffSize];
@@ -110,10 +110,11 @@ namespace EarTraining
                         outFile.Write(sampleBuffer, nSamples * channels);
                     } while (nSamples != 0);
 
-                    tempoChrodProgression.Add(outFile);
+                    tempoChordProgression.Add(outFile);
+                    inFile?.Dispose();
                 }
 
-                foreach (var outFile in tempoChrodProgression)
+                foreach (var outFile in tempoChordProgression)
                 {
                     PlayAudioResource(outFile);
                 }
