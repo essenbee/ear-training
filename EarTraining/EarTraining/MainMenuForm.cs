@@ -137,6 +137,8 @@ namespace EarTraining
 
             chordPalette.Shuffle<Chord>();
 
+
+
             var chordProgression = new List<Chord>();
             var rng = new CryptoRandom();
             for (var i = 0; i < 4; i++)
@@ -161,7 +163,7 @@ namespace EarTraining
             try
             {
                 var player = new Player(chordProgression);
-                player.PlayChords();
+                player.PlayChords(4, true, 100.0f);
             }
             catch (Exception ex)
             {
