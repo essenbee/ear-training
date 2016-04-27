@@ -17,6 +17,11 @@ namespace EarTraining
         private static Logger logger = LogManager.GetCurrentClassLogger();
         private List<Chord> _prevQuestion = null;
         private List<Chord> _chordPalette = null;
+        private const string BeginnerText1 = "You will hear a chord progression made up of 4 chords,\n" +
+                "each one strummed four times. Listen carefully and write\n" +
+                "down the chords you hear in order. Don't worry if you\n" +
+                "find it hard! Practise makes perfect.";
+        private const string BeginnerText2 = "Placeholder text for stage 5+";
 
         public CprForm()
         {
@@ -24,13 +29,15 @@ namespace EarTraining
             if (_prevQuestion == null)
             {
                 repeat.Enabled = false;
+                reveal.Enabled = false;
+                answer.Text = string.Empty;
             }
 
             _chordPalette = ChordLibrary.Stage1ChordPalette;
             beginnerRadioButton.Checked = true;
             stage1RadioButton.Checked = true;
             chordPaletteLabel.Text = GetChordNames(_chordPalette);
-
+            notes.Text = BeginnerText1;
         }
 
         private void close_Click(object sender, EventArgs e)
@@ -44,6 +51,9 @@ namespace EarTraining
             {
                 _prevQuestion = null;
                 repeat.Enabled = false;
+                reveal.Enabled = false;
+                answer.Text = string.Empty;
+
                 stage1RadioButton.Enabled = true;
                 stage2RadioButton.Enabled = true;
                 stage3RadioButton.Enabled = true;
@@ -58,6 +68,7 @@ namespace EarTraining
                 beginnerRadioButton.Checked = true;
                 stage1RadioButton.Checked = true;
                 chordPaletteLabel.Text = GetChordNames(_chordPalette);
+                notes.Text = BeginnerText1;
             }
         }
 
@@ -72,6 +83,9 @@ namespace EarTraining
             {
                 _prevQuestion = null;
                 repeat.Enabled = false;
+                reveal.Enabled = false;
+                answer.Text = string.Empty;
+
                 stage1RadioButton.Enabled = true;
                 stage2RadioButton.Enabled = true;
                 stage3RadioButton.Enabled = true;
@@ -85,6 +99,7 @@ namespace EarTraining
                 _chordPalette = ChordLibrary.Stage1ChordPalette;
                 stage1RadioButton.Checked = true;
                 chordPaletteLabel.Text = "Intermediate Level coming soon!";
+                notes.Text = string.Empty;
             }
         }
 
@@ -92,6 +107,9 @@ namespace EarTraining
         {
             _prevQuestion = null;
             repeat.Enabled = false;
+            reveal.Enabled = false;
+            answer.Text = string.Empty;
+
             stage1RadioButton.Enabled = false;
             stage2RadioButton.Enabled = false;
             stage3RadioButton.Enabled = false;
@@ -104,10 +122,13 @@ namespace EarTraining
 
             _chordPalette = null;
             chordPaletteLabel.Text = "Custom Level coming soon!";
+            notes.Text = string.Empty;
         }
 
         private void play_Click(object sender, EventArgs e)
         {
+            answer.Text = string.Empty;
+
             var chordPalette = _chordPalette;
             chordPalette.Shuffle();
             var chordProgression = new List<Chord>();
@@ -133,12 +154,17 @@ namespace EarTraining
             }
 
             _prevQuestion = chordProgression;
-            repeat.Enabled = true;
+            play.Enabled = false;
+            repeat.Enabled = false;
+            reveal.Enabled = false;
 
             try
             {
                 var player = new Player(chordProgression);
                 player.PlayChords();
+                play.Enabled = true;
+                repeat.Enabled = true;
+                reveal.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -148,10 +174,16 @@ namespace EarTraining
 
         private void repeat_Click(object sender, EventArgs e)
         {
+            answer.Text = string.Empty;
+            play.Enabled = false;
+            reveal.Enabled = false;
+
             try
             {
                 var player = new Player(_prevQuestion);
                 player.PlayChords();
+                play.Enabled = true;
+                reveal.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -166,15 +198,21 @@ namespace EarTraining
                 _chordPalette = ChordLibrary.Stage1ChordPalette;
                 _prevQuestion = null;
                 repeat.Enabled = false;
+                reveal.Enabled = false;
+                answer.Text = string.Empty;
 
                 chordPaletteLabel.Text = GetChordNames(_chordPalette);
+                notes.Text = BeginnerText1;
             }
             else
             {
                 _prevQuestion = null;
                 repeat.Enabled = false;
+                reveal.Enabled = false;
+                answer.Text = string.Empty;
 
                 chordPaletteLabel.Text = "Intermediate Level coming soon!";
+                notes.Text = string.Empty;
             }
         }
 
@@ -185,15 +223,21 @@ namespace EarTraining
                 _chordPalette = ChordLibrary.Stage2ChordPalette;
                 _prevQuestion = null;
                 repeat.Enabled = false;
+                reveal.Enabled = false;
+                answer.Text = string.Empty;
 
                 chordPaletteLabel.Text = GetChordNames(_chordPalette);
+                notes.Text = BeginnerText1;
             }
             else
             {
                 _prevQuestion = null;
                 repeat.Enabled = false;
+                reveal.Enabled = false;
+                answer.Text = string.Empty;
 
                 chordPaletteLabel.Text = "Intermediate Level coming soon!";
+                notes.Text = string.Empty;
             }
         }
 
@@ -204,15 +248,21 @@ namespace EarTraining
                 _chordPalette = ChordLibrary.Stage3ChordPalette;
                 _prevQuestion = null;
                 repeat.Enabled = false;
+                reveal.Enabled = false;
+                answer.Text = string.Empty;
 
                 chordPaletteLabel.Text = GetChordNames(_chordPalette);
+                notes.Text = BeginnerText1;
             }
             else
             {
                 _prevQuestion = null;
                 repeat.Enabled = false;
+                reveal.Enabled = false;
+                answer.Text = string.Empty;
 
                 chordPaletteLabel.Text = "Intermediate Level coming soon!";
+                notes.Text = string.Empty;
             }
         }
 
@@ -223,15 +273,21 @@ namespace EarTraining
                 _chordPalette = ChordLibrary.Stage4ChordPalette;
                 _prevQuestion = null;
                 repeat.Enabled = false;
+                reveal.Enabled = false;
+                answer.Text = string.Empty;
 
                 chordPaletteLabel.Text = GetChordNames(_chordPalette);
+                notes.Text = BeginnerText1;
             }
             else
             {
                 _prevQuestion = null;
                 repeat.Enabled = false;
+                reveal.Enabled = false;
+                answer.Text = string.Empty;
 
                 chordPaletteLabel.Text = "Intermediate Level coming soon!!";
+                notes.Text = string.Empty;
             }
         }
 
@@ -242,15 +298,21 @@ namespace EarTraining
                 _chordPalette = ChordLibrary.Stage5ChordPalette;
                 _prevQuestion = null;
                 repeat.Enabled = false;
+                reveal.Enabled = false;
+                answer.Text = string.Empty;
 
                 chordPaletteLabel.Text = GetChordNames(_chordPalette);
+                notes.Text = BeginnerText2;
             }
             else
             {
                 _prevQuestion = null;
                 repeat.Enabled = false;
+                reveal.Enabled = false;
+                answer.Text = string.Empty;
 
                 chordPaletteLabel.Text = "Intermediate Level coming soon!";
+                notes.Text = string.Empty;
             }
         }
 
@@ -261,9 +323,13 @@ namespace EarTraining
                 // _chordPalette = ChordLibrary.Stage6ChordPalette;
                 _prevQuestion = null;
                 repeat.Enabled = false;
+                reveal.Enabled = false;
+                answer.Text = string.Empty;
 
                 chordPaletteLabel.Text = "Stage 6 coming soon!";
                 // chordPaletteLabel.Text = GetChordNames(_chordPalette);
+                notes.Text = string.Empty;
+
             }
         }
 
@@ -274,9 +340,12 @@ namespace EarTraining
                 // _chordPalette = ChordLibrary.Stage7ChordPalette;
                 _prevQuestion = null;
                 repeat.Enabled = false;
+                reveal.Enabled = false;
+                answer.Text = string.Empty;
 
                 chordPaletteLabel.Text = "Stage 7 coming soon!";
                 // chordPaletteLabel.Text = GetChordNames(_chordPalette);
+                notes.Text = string.Empty;
             }
         }
 
@@ -287,9 +356,12 @@ namespace EarTraining
                 // _chordPalette = ChordLibrary.Stage8ChordPalette;
                 _prevQuestion = null;
                 repeat.Enabled = false;
+                reveal.Enabled = false;
+                answer.Text = string.Empty;
 
                 chordPaletteLabel.Text = "Stage 8 coming soon!";
                 // chordPaletteLabel.Text = GetChordNames(_chordPalette);
+                notes.Text = string.Empty;
             }
         }
 
@@ -300,9 +372,12 @@ namespace EarTraining
                 // _chordPalette = ChordLibrary.Stage9ChordPalette;
                 _prevQuestion = null;
                 repeat.Enabled = false;
+                reveal.Enabled = false;
+                answer.Text = string.Empty;
 
                 chordPaletteLabel.Text = "Stage 9 coming soon!";
                 // chordPaletteLabel.Text = GetChordNames(_chordPalette);
+                notes.Text = string.Empty;
             }
         }
 
@@ -317,6 +392,11 @@ namespace EarTraining
             chordNames = chordNames.Remove(chordNames.Length - 2, 2);
 
             return chordNames;
+        }
+
+        private void reveal_Click(object sender, EventArgs e)
+        {
+            answer.Text = GetChordNames(_prevQuestion);
         }
     }
 }

@@ -47,6 +47,11 @@
             this.repeat = new System.Windows.Forms.Button();
             this.chordPaletteLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.notes = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.reveal = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.answer = new System.Windows.Forms.Label();
             this.levelGroup.SuspendLayout();
             this.stageGroupBox.SuspendLayout();
             this.SuspendLayout();
@@ -268,11 +273,64 @@
             this.label2.TabIndex = 18;
             this.label2.Text = "Current Chord Palette";
             // 
+            // notes
+            // 
+            this.notes.AutoSize = true;
+            this.notes.Location = new System.Drawing.Point(278, 106);
+            this.notes.Name = "notes";
+            this.notes.Size = new System.Drawing.Size(35, 13);
+            this.notes.TabIndex = 19;
+            this.notes.Text = "Notes";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(281, 86);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(40, 13);
+            this.label1.TabIndex = 20;
+            this.label1.Text = "Notes";
+            // 
+            // reveal
+            // 
+            this.reveal.Location = new System.Drawing.Point(277, 308);
+            this.reveal.Name = "reveal";
+            this.reveal.Size = new System.Drawing.Size(120, 23);
+            this.reveal.TabIndex = 21;
+            this.reveal.Text = "Reveal Answer";
+            this.reveal.UseVisualStyleBackColor = true;
+            this.reveal.Click += new System.EventHandler(this.reveal_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(281, 201);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(48, 13);
+            this.label3.TabIndex = 22;
+            this.label3.Text = "Answer";
+            // 
+            // answer
+            // 
+            this.answer.AutoSize = true;
+            this.answer.Location = new System.Drawing.Point(281, 218);
+            this.answer.Name = "answer";
+            this.answer.Size = new System.Drawing.Size(42, 13);
+            this.answer.TabIndex = 23;
+            this.answer.Text = "Answer";
+            // 
             // CprForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(707, 345);
+            this.Controls.Add(this.answer);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.reveal);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.notes);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.chordPaletteLabel);
             this.Controls.Add(this.repeat);
@@ -312,5 +370,10 @@
         private System.Windows.Forms.Button repeat;
         private System.Windows.Forms.Label chordPaletteLabel;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label notes;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button reveal;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label answer;
     }
 }
