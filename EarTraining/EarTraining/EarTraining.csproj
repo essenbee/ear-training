@@ -63,6 +63,9 @@
     <Compile Include="Classes\Chord.cs" />
     <Compile Include="Classes\ChordLibrary.cs" />
     <Compile Include="Classes\ChordQuality.cs" />
+    <Compile Include="Classes\DSPEffect.cs" />
+    <Compile Include="Classes\DSPEffectFactor.cs" />
+    <Compile Include="Classes\EqualizerEffect.cs" />
     <Compile Include="Classes\ExtensionMethods.cs" />
     <Compile Include="Classes\SoundTouchSharp.cs" />
     <Compile Include="Classes\TimeStretchProfile.cs" />
