@@ -163,7 +163,7 @@ namespace EarTraining
             try
             {
                 var player = new Player(chordProgression);
-                player.PlayChords(4, true, 25.0f);
+                player.PlayChords(4, true, 1.0f);
             }
             catch (Exception ex)
             {
