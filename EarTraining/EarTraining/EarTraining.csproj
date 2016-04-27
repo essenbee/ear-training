@@ -59,7 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\AsvancedBufferedWaveProvider.cs" />
+    <Compile Include="Classes\AdvancedBufferedWaveProvider.cs" />
     <Compile Include="Classes\BigEndianHelper.cs" />
     <Compile Include="Classes\Chord.cs" />
     <Compile Include="Classes\ChordQuality.cs" />
