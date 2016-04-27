@@ -29,30 +29,35 @@ namespace EarTraining
             {
                 Name = "A",
                 Quality = ChordQuality.Major,
+                NormalTempoDelta = 1.0f,
             };
 
             var CMajor = new Chord
             {
                 Name = "C",
                 Quality = ChordQuality.Major,
+                NormalTempoDelta = 1.2f,
             };
 
             var DMajor = new Chord
             {
                 Name = "D",
                 Quality = ChordQuality.Major,
+                NormalTempoDelta = 1.0f,
             };
 
             var EMajor = new Chord
             {
                 Name = "E",
                 Quality = ChordQuality.Major,
+                NormalTempoDelta = 1.0f,
             };
 
             var GMajor = new Chord
             {
                 Name = "G",
                 Quality = ChordQuality.Major,
+                NormalTempoDelta = 1.2f,
             };
 
             // Minor Chords
@@ -62,18 +67,21 @@ namespace EarTraining
             {
                 Name = "Am",
                 Quality = ChordQuality.Minor,
+                NormalTempoDelta = 1.2f,
             };
 
             var DMinor = new Chord
             {
                 Name = "Dm",
                 Quality = ChordQuality.Minor,
+                NormalTempoDelta = 1.25f,
             };
 
             var EMinor = new Chord
             {
                 Name = "Em",
                 Quality = ChordQuality.Minor,
+                NormalTempoDelta = 1.2f,
             };
 
             // Dominant 7th Chords
@@ -83,36 +91,42 @@ namespace EarTraining
             {
                 Name = "A7",
                 Quality = ChordQuality.Dominant7th,
+                NormalTempoDelta = 1.2f,
             };
 
             var B7 = new Chord
             {
                 Name = "B7",
                 Quality = ChordQuality.Dominant7th,
+                NormalTempoDelta = 1.25f,
             };
 
             var C7 = new Chord
             {
                 Name = "C7",
                 Quality = ChordQuality.Dominant7th,
+                NormalTempoDelta = 1.25f,
             };
 
             var D7 = new Chord
             {
                 Name = "D7",
                 Quality = ChordQuality.Dominant7th,
+                NormalTempoDelta = 1.4f,
             };
 
             var E7 = new Chord
             {
                 Name = "E7",
                 Quality = ChordQuality.Dominant7th,
+                NormalTempoDelta = 1.1f,
             };
 
             var G7 = new Chord
             {
                 Name = "G7",
                 Quality = ChordQuality.Dominant7th,
+                NormalTempoDelta = 1.2f,
             };
 
             // Major 7th Chords
@@ -122,6 +136,7 @@ namespace EarTraining
             {
                 Name = "Fmaj7",
                 Quality = ChordQuality.Major7th,
+                NormalTempoDelta = 1.15f,
             };
 
             // =======================================================
@@ -136,8 +151,6 @@ namespace EarTraining
             };
 
             chordPalette.Shuffle<Chord>();
-
-
 
             var chordProgression = new List<Chord>();
             var rng = new CryptoRandom();
@@ -163,7 +176,7 @@ namespace EarTraining
             try
             {
                 var player = new Player(chordProgression);
-                player.PlayChords(4, true, 1.0f);
+                player.PlayChords(4);
             }
             catch (Exception ex)
             {

@@ -8,6 +8,7 @@ namespace EarTraining.Classes
     {
         public string Name { get; set; }
         public ChordQuality Quality { get; set; }
+        public float NormalTempoDelta { get; set; }
 
         private const string Strums4 = "FourStrums";
         private const string Strums2 = "TwoStrums";

@@ -60,20 +60,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\AdvancedBufferedWaveProvider.cs" />
-    <Compile Include="Classes\BigEndianHelper.cs" />
     <Compile Include="Classes\Chord.cs" />
     <Compile Include="Classes\ChordQuality.cs" />
-    <Compile Include="Classes\EndianHelper.cs" />
     <Compile Include="Classes\ExtensionMethods.cs" />
-    <Compile Include="Classes\LittleEndianHelper.cs" />
     <Compile Include="Classes\SoundTouchSharp.cs" />
     <Compile Include="Classes\TimeStretchProfile.cs" />
-    <Compile Include="Classes\WavData.cs" />
-    <Compile Include="Classes\WavFormat.cs" />
-    <Compile Include="Classes\WavHeader.cs" />
-    <Compile Include="Classes\WavInFile.cs" />
-    <Compile Include="Classes\WavOutFile.cs" />
-    <Compile Include="Classes\WavRiff.cs" />
     <Compile Include="CprForm.cs">
       <SubType>Form</SubType>
     </Compile>
