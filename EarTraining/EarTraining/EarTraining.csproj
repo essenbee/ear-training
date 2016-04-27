@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="Classes\AdvancedBufferedWaveProvider.cs" />
     <Compile Include="Classes\Chord.cs" />
+    <Compile Include="Classes\ChordLibrary.cs" />
     <Compile Include="Classes\ChordQuality.cs" />
     <Compile Include="Classes\ExtensionMethods.cs" />
     <Compile Include="Classes\SoundTouchSharp.cs" />

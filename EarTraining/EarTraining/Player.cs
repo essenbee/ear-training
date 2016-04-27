@@ -24,6 +24,7 @@ namespace EarTraining
 
         private const int BuffSize = 2048;
         private const int BusyQueuedBuffersThreshold = 3;
+        private const int Latency = 125;
 
         public Player()
         {
@@ -38,83 +39,60 @@ namespace EarTraining
             _s = new SoundTouchSharp();
         }
 
-        public void PlayChords(int numStrums)
+        public void PlayChords(int numStrums = 4)
         {
             if (_chordProgression != null && _chordProgression.Count() > 0)
             {
-                PlayChords(_chordProgression, numStrums);
+                PlayChords(_chordProgression, numStrums, 1.0f);
             }
         }
 
-        public void PlayChords(IEnumerable<Chord> chordProgression, int numStrums)
+        public void PlayChords(int numStrums, float tempoMultiplier)
+        {
+            if (_chordProgression != null && _chordProgression.Count() > 0)
+            {
+                PlayChords(_chordProgression, numStrums, tempoMultiplier);
+            }
+        }
+
+        public void PlayChords(IEnumerable<Chord> chordProgression, int numStrums, float tempoMultiplier)
         {
             _s.CreateInstance();
             var inputProviders = new List<AdvancedBufferedWaveProvider>();
 
             foreach (var chord in chordProgression)
             {
-                WaveStream waveStream = new WaveFileReader(Resources.ResourceManager.GetStream(chord.GetAudioResourceName(numStrums),
+                var waveChannel = GetWaveChannel(Resources.ResourceManager.GetStream(chord.GetAudioResourceName(numStrums),
                          CultureInfo.InvariantCulture));
-
-                if (waveStream.WaveFormat.Encoding != WaveFormatEncoding.Pcm)
-                {
-                    waveStream = WaveFormatConversionStream.CreatePcmStream(waveStream);
-                    waveStream = new BlockAlignReductionStream(waveStream);
-                }
-                if (waveStream.WaveFormat.BitsPerSample != 16)
-                {
-                    var wavFormat = new WaveFormat(waveStream.WaveFormat.SampleRate, 16, waveStream.WaveFormat.Channels);
-                    waveStream = new WaveFormatConversionStream(wavFormat, waveStream);
-                }
-
-                var waveChannel = new WaveChannel32(waveStream);
                 var format = waveChannel.WaveFormat;
                 var inputProvider = new AdvancedBufferedWaveProvider(format);
                 inputProvider.MaxQueuedBuffers = 100;
 
-                _s.SetSampleRate(format.SampleRate);
-                _s.SetChannels(format.Channels);
-                _s.SetTempoChange(0);
-                _s.SetPitchSemiTones(0);
-                _s.SetRateChange(0);
-                _s.SetTempo(chord.NormalTempoDelta);
+                SetupSoundTouch(format);
 
-                // Apply default SoundTouch settings
-                _s.SetSetting(SoundTouchSharp.SoundTouchSettings.SETTING_USE_QUICKSEEK, 0);
+                // Here we set the tempo chnages we want to apply...
+                _s.SetTempo(chord.NormalTempoDelta * tempoMultiplier);
 
-                var profile = new TimeStretchProfile();
-                _s.SetSetting(SoundTouchSharp.SoundTouchSettings.SETTING_USE_AA_FILTER, profile.UseAAFilter ? 1 : 0);
-                _s.SetSetting(SoundTouchSharp.SoundTouchSettings.SETTING_AA_FILTER_LENGTH, profile.AAFilterLength);
-                _s.SetSetting(SoundTouchSharp.SoundTouchSettings.SETTING_OVERLAP_MS, profile.Overlap);
-                _s.SetSetting(SoundTouchSharp.SoundTouchSettings.SETTING_SEQUENCE_MS, profile.Sequence);
-                _s.SetSetting(SoundTouchSharp.SoundTouchSettings.SETTING_SEEKWINDOW_MS, profile.SeekWindow);
-
-                int bufferSecondLength = format.SampleRate * format.Channels;
-                byte[] inputBuffer = new byte[BufferSamples * sizeof(float)];
-                byte[] soundTouchOutBuffer = new byte[BufferSamples * sizeof(float)];
-
-                ByteAndFloatsConverter convertInputBuffer = new ByteAndFloatsConverter { Bytes = inputBuffer };
-                ByteAndFloatsConverter convertOutputBuffer = new ByteAndFloatsConverter { Bytes = soundTouchOutBuffer };
-                uint outBufferSizeFloats = (uint)convertOutputBuffer.Bytes.Length / (uint)(sizeof(float) * format.Channels);
-
-                int bytesRead;
-                int floatsRead;
+                var bufferSecondLength = format.SampleRate * format.Channels;
+                var inputBuffer = new byte[BufferSamples * sizeof(float)];
+                var soundTouchOutBuffer = new byte[BufferSamples * sizeof(float)];
+                var convertInputBuffer = new ByteAndFloatsConverter { Bytes = inputBuffer };
+                var convertOutputBuffer = new ByteAndFloatsConverter { Bytes = soundTouchOutBuffer };
+                var outBufferSizeFloats = (uint)convertOutputBuffer.Bytes.Length / (uint)(sizeof(float) * format.Channels);
                 uint samplesProcessed = 0;
                 int bufferIndex = 0;
-                TimeSpan actualEndMarker = TimeSpan.Zero;
+                var actualEndMarker = TimeSpan.Zero;
 
                 while (waveChannel.Position < waveChannel.Length)
                 {
-                    bytesRead = waveChannel.Read(convertInputBuffer.Bytes, 0, convertInputBuffer.Bytes.Length);
+                    int bytesRead = waveChannel.Read(convertInputBuffer.Bytes, 0, convertInputBuffer.Bytes.Length);
+                    int floatsRead = bytesRead / ((sizeof(float)) * format.Channels);
 
-                    floatsRead = bytesRead / ((sizeof(float)) * format.Channels);
-
-                    if (waveChannel.CurrentTime > waveChannel.TotalTime)
+                    if (waveChannel.CurrentTime >= waveChannel.TotalTime)
                     {
                         _s.Clear();
                         _s.Flush();
                         waveChannel.Flush();
-
 
                         while (samplesProcessed != 0)
                         {
@@ -128,21 +106,18 @@ namespace EarTraining
                         }
                     }
 
-                    // ***                    Put samples in SoundTouch                   ***
+                    // Put samples into SoundTouch for processing...
                     _s.PutSamples(convertInputBuffer.Floats, (uint)floatsRead);
 
-                    // Receive samples from SoundTouch
                     do
                     {
-                        // ***                Receive samples back from SoundTouch            ***
-                        // *** This is where Time Stretching and Pitch Changing are actually done *********
+                        // Receive samples back from SoundTouch...
+                        // This is where Time Stretching and Pitch Changing are actually done...
                         samplesProcessed = _s.ReceiveSamples(convertOutputBuffer.Floats, outBufferSizeFloats);
-                        // **********************************************************************
 
                         if (samplesProcessed > 0)
                         {
                             TimeSpan currentBufferTime = waveChannel.CurrentTime;
-                            // ** Play samples that came out of SoundTouch by adding them to AdvancedBufferedWaveProvider - the buffered player 
                             inputProvider.AddSamples(convertOutputBuffer.Bytes, 0, (int)samplesProcessed * sizeof(float) * format.Channels, currentBufferTime);
                             bufferIndex++;
                         }
@@ -156,34 +131,68 @@ namespace EarTraining
 
             foreach (var input in inputProviders)
             {
-                PlayAudioResource(input);
+                PlayUsingNAudio(input);
             }
 
         }
 
-        private void PlayAudioResource(AdvancedBufferedWaveProvider input)
+        private void PlayUsingNAudio(AdvancedBufferedWaveProvider input)
         {
             if (input != null)
             {
-
-                using (var audioOutput = new DirectSoundOut(125))
+                using (var audioOutput = new DirectSoundOut(Latency))
                 {
                     audioOutput.Init(input);
                     audioOutput.Play();
 
-                    //while (audioOutput.PlaybackState != PlaybackState.Stopped)
-                    while (input.GetQueueCount() > 0)
-                    {
-                        Thread.Sleep(10);
-                    }
-
+                    // Sleep current thread whilst the audio plays in another thread...
+                    while (input.GetQueueCount() > 0) { Thread.Sleep(10); }
+                    // Playback is finished!
                     audioOutput.Stop();
                 }
             }
             else
             {
-                logger.Debug("    * input was null - check Resources!");
+                logger.Debug("Player.PlayUsingNAudio(): input buffer was null - check Resources!");
             }
+        }
+
+        private WaveChannel32 GetWaveChannel(UnmanagedMemoryStream stream)
+        {
+            WaveStream waveStream = new WaveFileReader(stream);
+
+            if (waveStream.WaveFormat.Encoding != WaveFormatEncoding.Pcm)
+            {
+                waveStream = WaveFormatConversionStream.CreatePcmStream(waveStream);
+                waveStream = new BlockAlignReductionStream(waveStream);
+            }
+            if (waveStream.WaveFormat.BitsPerSample != 16)
+            {
+                var wavFormat = new WaveFormat(waveStream.WaveFormat.SampleRate, 16, waveStream.WaveFormat.Channels);
+                waveStream = new WaveFormatConversionStream(wavFormat, waveStream);
+            }
+
+            var waveChannel = new WaveChannel32(waveStream);
+            return waveChannel;
+        }
+
+        private void SetupSoundTouch(WaveFormat format)
+        {
+            _s.SetSampleRate(format.SampleRate);
+            _s.SetChannels(format.Channels);
+            _s.SetTempoChange(0);
+            _s.SetPitchSemiTones(0);
+            _s.SetRateChange(0);
+
+            // Apply default SoundTouch settings
+            _s.SetSetting(SoundTouchSharp.SoundTouchSettings.SETTING_USE_QUICKSEEK, 0);
+
+            var profile = new TimeStretchProfile();
+            _s.SetSetting(SoundTouchSharp.SoundTouchSettings.SETTING_USE_AA_FILTER, profile.UseAAFilter ? 1 : 0);
+            _s.SetSetting(SoundTouchSharp.SoundTouchSettings.SETTING_AA_FILTER_LENGTH, profile.AAFilterLength);
+            _s.SetSetting(SoundTouchSharp.SoundTouchSettings.SETTING_OVERLAP_MS, profile.Overlap);
+            _s.SetSetting(SoundTouchSharp.SoundTouchSettings.SETTING_SEQUENCE_MS, profile.Sequence);
+            _s.SetSetting(SoundTouchSharp.SoundTouchSettings.SETTING_SEEKWINDOW_MS, profile.SeekWindow);
         }
     }
 }

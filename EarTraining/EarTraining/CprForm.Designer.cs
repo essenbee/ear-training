@@ -32,6 +32,7 @@
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.levelGroup = new System.Windows.Forms.GroupBox();
             this.SuspendLayout();
             // 
             // close
@@ -66,6 +67,7 @@
             this.radioButton2.TabIndex = 2;
             this.radioButton2.Text = "Intermediate";
             this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
             // radioButton3
             // 
@@ -76,6 +78,17 @@
             this.radioButton3.TabIndex = 3;
             this.radioButton3.Text = "Custom";
             this.radioButton3.UseVisualStyleBackColor = true;
+            this.radioButton3.CheckedChanged += new System.EventHandler(this.radioButton3_CheckedChanged);
+            // 
+            // levelGroup
+            // 
+            this.levelGroup.Location = new System.Drawing.Point(25, 12);
+            this.levelGroup.Name = "levelGroup";
+            this.levelGroup.Size = new System.Drawing.Size(105, 107);
+            this.levelGroup.TabIndex = 4;
+            this.levelGroup.TabStop = false;
+            this.levelGroup.Text = "Level";
+            this.levelGroup.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // CprForm
             // 
@@ -86,6 +99,7 @@
             this.Controls.Add(this.radioButton2);
             this.Controls.Add(this.radioButton1);
             this.Controls.Add(this.close);
+            this.Controls.Add(this.levelGroup);
             this.Name = "CprForm";
             this.Text = "Chord Progression Recognition";
             this.ResumeLayout(false);
@@ -99,5 +113,6 @@
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton3;
+        private System.Windows.Forms.GroupBox levelGroup;
     }
 }
