@@ -127,36 +127,59 @@ namespace EarTraining
 
         private void play_Click(object sender, EventArgs e)
         {
-            answer.Text = string.Empty;
-
-            var chordPalette = _chordPalette;
-            chordPalette.Shuffle();
-            var chordProgression = new List<Chord>();
-            var rng = new CryptoRandom();
-
-            for (var i = 0; i < 4; i++)
-            {
-                var rnd = rng.Next(0, chordPalette.Count - 1);
-                if (i != 0)
-                {
-                    var nextChord = chordPalette[rnd];
-                    while (nextChord.Equals(chordProgression[i - 1]))
-                    {
-                        rnd = rng.Next(0, chordPalette.Count - 1);
-                        nextChord = chordPalette[rnd];
-                    }
-                    chordProgression.Add(chordPalette[rnd]);
-                }
-                else
-                {
-                    chordProgression.Add(chordPalette[rnd]);
-                }
-            }
-
-            _prevQuestion = chordProgression;
             play.Enabled = false;
             repeat.Enabled = false;
             reveal.Enabled = false;
+            answer.Text = string.Empty;
+
+            // make a copy of the current chord palette...
+            var chordPalette = new List<Chord>();
+            foreach (var chord in _chordPalette)
+            {
+                chordPalette.Add(chord);
+            }
+
+            // Shuffle the fuller palettes to improve randomness...
+            if (chordPalette.Count > 4)
+            {
+                chordPalette.Shuffle();
+            }
+            var chordProgression = new List<Chord>();
+            var rng = new CryptoRandom();
+
+            if (chordPalette.Count > 4)
+            {
+                for (var i = 0; i < 4; i++)
+                {
+                    var rnd = rng.Next(0, chordPalette.Count - 1);
+                    if (i != 0)
+                    {
+                        var nextChord = chordPalette[rnd];
+                        while (nextChord.Equals(chordProgression[i - 1]))
+                        {
+                            rnd = rng.Next(0, chordPalette.Count - 1);
+                            nextChord = chordPalette[rnd];
+                        }
+
+                        chordProgression.Add(chordPalette[rnd]);
+                    }
+                    else
+                    {
+                        chordProgression.Add(chordPalette[rnd]);
+                    }
+                }
+            }
+            else
+            {
+                // I want each chord in the progression once
+                chordProgression = chordPalette;
+                chordProgression.Shuffle();
+                var rnd = rng.Next(0, chordPalette.Count - 1);
+                var lastChord = chordPalette[rnd];
+                chordProgression.Add(lastChord);
+            }
+
+            _prevQuestion = chordProgression;
 
             try
             {
