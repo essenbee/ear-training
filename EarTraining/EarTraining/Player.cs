@@ -7,9 +7,6 @@ using System.IO;
 using NLog;
 using System.Collections.Generic;
 using System.Linq;
-using TSampleType = System.Single;
-using TLongSampleType = System.Double;
-using SoundTouch;
 using System;
 
 namespace EarTraining
@@ -29,8 +26,6 @@ namespace EarTraining
 
         // Constants
         // =========
-        private const int BuffSize = 2048;
-        private const int BusyQueuedBuffersThreshold = 3;
         private const int Latency = 125;
         // Preset Equalizer Settings
         private const float DefaultLoDriveFactor = 75.0f;
@@ -59,7 +54,7 @@ namespace EarTraining
 
         public void PlayChords(int numStrums = 4)
         {
-            if (_chordProgression != null && _chordProgression.Count() > 0)
+            if (_chordProgression != null && _chordProgression.Any())
             {
                 PlayChords(_chordProgression, numStrums, 1.0f);
             }
@@ -67,7 +62,7 @@ namespace EarTraining
 
         public void PlayChords(int numStrums, float tempoMultiplier)
         {
-            if (_chordProgression != null && _chordProgression.Count() > 0)
+            if (_chordProgression != null && _chordProgression.Any())
             {
                 PlayChords(_chordProgression, numStrums, tempoMultiplier);
             }
@@ -85,23 +80,19 @@ namespace EarTraining
                 InitializeEqualizerEffect(waveChannel);
 
                 var format = waveChannel.WaveFormat;
-                var inputProvider = new AdvancedBufferedWaveProvider(format);
-                inputProvider.MaxQueuedBuffers = 100;
+                var inputProvider = new AdvancedBufferedWaveProvider(format) {MaxQueuedBuffers = 100};
 
                 SetupSoundTouch(format);
 
                 // Here we set the tempo changes we want to apply...
                 _s.SetTempo(chord.NormalTempoDelta * tempoMultiplier);
 
-                var bufferSecondLength = format.SampleRate * format.Channels;
                 var inputBuffer = new byte[BufferSamples * sizeof(float)];
                 var soundTouchOutBuffer = new byte[BufferSamples * sizeof(float)];
                 var convertInputBuffer = new ByteAndFloatsConverter { Bytes = inputBuffer };
                 var convertOutputBuffer = new ByteAndFloatsConverter { Bytes = soundTouchOutBuffer };
                 var outBufferSizeFloats = (uint)convertOutputBuffer.Bytes.Length / (uint)(sizeof(float) * format.Channels);
                 uint samplesProcessed = 0;
-                int bufferIndex = 0;
-                var actualEndMarker = TimeSpan.Zero;
 
                 while (waveChannel.Position < waveChannel.Length)
                 {
@@ -110,7 +101,7 @@ namespace EarTraining
 
                     // Apply DSP effects here (preset equalizer settings)
 
-                    ApplyDSPEffects(convertInputBuffer.Floats, floatsRead);
+                    ApplyDspEffects(convertInputBuffer.Floats, floatsRead);
 
                     if (waveChannel.CurrentTime >= waveChannel.TotalTime)
                     {
@@ -124,7 +115,7 @@ namespace EarTraining
 
                             if (samplesProcessed > 0)
                             {
-                                TimeSpan currentBufferTime = waveChannel.CurrentTime;
+                                var currentBufferTime = waveChannel.CurrentTime;
                                 inputProvider.AddSamples(convertOutputBuffer.Bytes, 0, (int)samplesProcessed * sizeof(float) * format.Channels, currentBufferTime);
                             }
                         }
@@ -141,9 +132,8 @@ namespace EarTraining
 
                         if (samplesProcessed > 0)
                         {
-                            TimeSpan currentBufferTime = waveChannel.CurrentTime;
+                            var currentBufferTime = waveChannel.CurrentTime;
                             inputProvider.AddSamples(convertOutputBuffer.Bytes, 0, (int)samplesProcessed * sizeof(float) * format.Channels, currentBufferTime);
-                            bufferIndex++;
                         }
                     } while (samplesProcessed != 0);
                 }
@@ -227,8 +217,7 @@ namespace EarTraining
         private void InitializeEqualizerEffect(WaveChannel32 waveChannel)
         {
             // Initialize Equalizer
-            _eqEffect = new EqualizerEffect();
-            _eqEffect.SampleRate = waveChannel.WaveFormat.SampleRate;
+            _eqEffect = new EqualizerEffect {SampleRate = waveChannel.WaveFormat.SampleRate};
             _eqEffect.LoDriveFactor.Value = DefaultLoDriveFactor;
             _eqEffect.LoGainFactor.Value = DefaultLoGainFactor;
             _eqEffect.MedDriveFactor.Value = DefaultMedDriveFactor;
@@ -239,7 +228,7 @@ namespace EarTraining
             _eqEffect.OnFactorChanges();
         }
 
-        private void ApplyDSPEffects(float[] buffer, int count)
+        private void ApplyDspEffects(float[] buffer, int count)
         {
             int samples = count * 2;
 
