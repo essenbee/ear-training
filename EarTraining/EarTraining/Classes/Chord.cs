@@ -5,6 +5,7 @@ namespace EarTraining.Classes
     public sealed class Chord : IEquatable<Chord>
     {
         public string Name { get; set; }
+        public string BassNote { get; set; }
         public ChordQuality Quality { get; set; }
         public float NormalTempoDelta { get; set; }
 

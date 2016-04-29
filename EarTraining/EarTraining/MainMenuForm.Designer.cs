@@ -63,6 +63,7 @@
             this.cqrButton.TabIndex = 3;
             this.cqrButton.Text = "Chord Quality Recognition";
             this.cqrButton.UseVisualStyleBackColor = true;
+            this.cqrButton.Click += new System.EventHandler(this.cqrButton_Click);
             // 
             // label1
             // 
