@@ -52,6 +52,8 @@
             this.reveal = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.answer = new System.Windows.Forms.Label();
+            this.deviceComboBox = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.levelGroup.SuspendLayout();
             this.stageGroupBox.SuspendLayout();
             this.SuspendLayout();
@@ -321,11 +323,32 @@
             this.answer.TabIndex = 23;
             this.answer.Text = "Answer";
             // 
+            // deviceComboBox
+            // 
+            this.deviceComboBox.FormattingEnabled = true;
+            this.deviceComboBox.Location = new System.Drawing.Point(25, 155);
+            this.deviceComboBox.Name = "deviceComboBox";
+            this.deviceComboBox.Size = new System.Drawing.Size(121, 21);
+            this.deviceComboBox.TabIndex = 24;
+            this.deviceComboBox.SelectedIndexChanged += new System.EventHandler(this.deviceComboBox_SelectedIndexChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(22, 136);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(103, 13);
+            this.label4.TabIndex = 25;
+            this.label4.Text = "Playback Device";
+            // 
             // CprForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(707, 345);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.deviceComboBox);
             this.Controls.Add(this.answer);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.reveal);
@@ -375,5 +398,7 @@
         private System.Windows.Forms.Button reveal;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label answer;
+        private System.Windows.Forms.ComboBox deviceComboBox;
+        private System.Windows.Forms.Label label4;
     }
 }

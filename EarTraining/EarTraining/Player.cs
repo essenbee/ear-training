@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using NAudio.Wave;
 using System.Threading;
 using EarTraining.Classes;
@@ -73,19 +74,19 @@ namespace EarTraining
         {
             if (_chordProgression != null && _chordProgression.Any())
             {
-                PlayChords(_chordProgression, 1.0f);
+                PlayChords(_chordProgression, Guid.Empty, 1.0f);
             }
         }
 
-        public void PlayChords(float tempoMultiplier)
+        public void PlayChords(Guid deviceGuid, float tempoMultiplier)
         {
             if (_chordProgression != null && _chordProgression.Any())
             {
-                PlayChords(_chordProgression, tempoMultiplier);
+                PlayChords(_chordProgression, deviceGuid, tempoMultiplier);
             }
         }
 
-        public void PlayChords(IEnumerable<Bar> chordProgression, float tempoMultiplier)
+        public void PlayChords(IEnumerable<Bar> chordProgression, Guid deviceGuid, float tempoMultiplier)
         {
             _s.CreateInstance();
             var inputProviders = new List<AdvancedBufferedWaveProvider>();
@@ -169,7 +170,7 @@ namespace EarTraining
 
             foreach (var input in inputProviders)
             {
-                PlayUsingNAudio(input);
+                PlayUsingNAudio(input, deviceGuid);
             }
 
         }
@@ -178,18 +179,21 @@ namespace EarTraining
 
         #region Private Methods
 
-        private void PlayUsingNAudio(AdvancedBufferedWaveProvider input)
+        private void PlayUsingNAudio(AdvancedBufferedWaveProvider input, Guid deviceGuid)
         {
             if (input != null)
             {
                 // using (var audioOutput = new WasapiOut(0, Latency))
-                using (var audioOutput = new DirectSoundOut(Latency))
+                using (var audioOutput = new DirectSoundOut(deviceGuid, Latency))
                 {
                     audioOutput.Init(input);
                     audioOutput.Play();
 
                     // Sleep current thread whilst the audio plays in another thread...
-                    while (input.GetQueueCount() > 0) { Thread.Sleep(10); }
+                    while (input.GetQueueCount() > 0)
+                    {
+                        Thread.Sleep(10);
+                    }
                     // Playback is finished!
                     audioOutput.Stop();
                 }

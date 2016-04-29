@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using NAudio.Wave;
 
 namespace EarTraining
 {
@@ -16,6 +17,7 @@ namespace EarTraining
         private List<Chord> _chordPalette = null;
         private Level _currentLevel;
         private int _currentStage;
+        private Guid _selectedSoundDevice = Guid.Empty;
 
         // Private Constants
         // =================
@@ -30,7 +32,7 @@ namespace EarTraining
             "actual songs, so stick with it!";
         private const string BeginnerText3 = "Placeholder for Stages 8+";
         private const int MaxBars = 4;
-        private const int TwoChordsInBarProbabilityMultiplier = 2;
+        private const int TwoChordsInBarProbabilityMultiplier = 5;
 
         // Properties
         private float Tempo
@@ -64,6 +66,13 @@ namespace EarTraining
             {
                 InitialiseQuestion(1);
             }
+
+            var soundDevices = DirectSoundOut.Devices;
+            foreach (var device in soundDevices)
+            {
+                deviceComboBox.Items.Add(device.Description);
+            }
+            deviceComboBox.SelectedIndex = 0;
 
             _chordPalette = ChordLibrary.Stage1ChordPalette;
             beginnerRadioButton.Checked = true;
@@ -179,7 +188,7 @@ namespace EarTraining
             try
             {
                 var player = new Player(chordProgression);
-                player.PlayChords(Tempo);
+                player.PlayChords(_selectedSoundDevice, Tempo);
                 play.Enabled = true;
                 repeat.Enabled = true;
                 reveal.Enabled = true;
@@ -206,7 +215,7 @@ namespace EarTraining
                     }
                     else if (_currentLevel.Equals(Level.Beginner))
                     {
-                        if (rnd > TwoChordsInBarProbabilityMultiplier*_currentStage)
+                        if (rnd > TwoChordsInBarProbabilityMultiplier * (_currentStage - 3))
                         {
                             OneChordInBar(rng, chordPalette, barNumber, chordProgression);
                         }
@@ -314,7 +323,7 @@ namespace EarTraining
             try
             {
                 var player = new Player(_prevQuestion);
-                player.PlayChords(Tempo);
+                player.PlayChords(_selectedSoundDevice, Tempo);
                 play.Enabled = true;
                 reveal.Enabled = true;
             }
@@ -500,6 +509,15 @@ namespace EarTraining
             reveal.Enabled = false;
             answer.Text = string.Empty;
             _currentStage = stage;
+        }
+
+        private void deviceComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var deviceGuid = DirectSoundOut.Devices.ElementAtOrDefault(deviceComboBox.SelectedIndex);
+            if (deviceGuid != null)
+            {
+                _selectedSoundDevice = deviceGuid.Guid;
+            }
         }
     }
 }
