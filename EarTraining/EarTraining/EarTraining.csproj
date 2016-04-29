@@ -68,6 +68,7 @@
     <Compile Include="Classes\DSPEffectFactor.cs" />
     <Compile Include="Classes\EqualizerEffect.cs" />
     <Compile Include="Classes\ExtensionMethods.cs" />
+    <Compile Include="Classes\Level.cs" />
     <Compile Include="Classes\SoundTouchSharp.cs" />
     <Compile Include="Classes\TimeStretchProfile.cs" />
     <Compile Include="CprForm.cs">
