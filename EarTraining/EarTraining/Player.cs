@@ -19,7 +19,7 @@ namespace EarTraining
 
         // Private variables
         // =================
-        private IEnumerable<Chord> _chordProgression;
+        private IEnumerable<Bar> _chordProgression;
         private SoundTouchSharp _s;
         private EqualizerEffect _eqEffect;
         public const int BufferSamples = 5 * 2048; // floats, not bytes
@@ -34,6 +34,7 @@ namespace EarTraining
         private const float DefaultMedGainFactor = 0.0f;
         private const float DefaultHiDriveFactor = 30.0f;
         private const float DefaultHiGainFactor = 0.0f;
+        private const int FloatSize = sizeof(float);
 
         #region Constructors
 
@@ -46,99 +47,106 @@ namespace EarTraining
 
         #region Public Methods
 
-        public Player(IEnumerable<Chord> chordProgression)
+        public Player(IEnumerable<Bar> chordProgression)
         {
             _chordProgression = chordProgression;
             _s = new SoundTouchSharp();
         }
 
-        public void PlayChords(int numStrums = 4)
+        public void PlayChords()
         {
             if (_chordProgression != null && _chordProgression.Any())
             {
-                PlayChords(_chordProgression, numStrums, 1.0f);
+                PlayChords(_chordProgression, 1.0f);
             }
         }
 
-        public void PlayChords(int numStrums, float tempoMultiplier)
+        public void PlayChords(float tempoMultiplier)
         {
             if (_chordProgression != null && _chordProgression.Any())
             {
-                PlayChords(_chordProgression, numStrums, tempoMultiplier);
+                PlayChords(_chordProgression, tempoMultiplier);
             }
         }
 
-        public void PlayChords(IEnumerable<Chord> chordProgression, int numStrums, float tempoMultiplier)
+        public void PlayChords(IEnumerable<Bar> chordProgression, float tempoMultiplier)
         {
             _s.CreateInstance();
             var inputProviders = new List<AdvancedBufferedWaveProvider>();
 
-            foreach (var chord in chordProgression)
+            foreach (var bar in chordProgression)
             {
-                var waveChannel = GetWaveChannel(Resources.ResourceManager.GetStream(chord.GetAudioResourceName(numStrums),
-                         CultureInfo.InvariantCulture));
-                InitializeEqualizerEffect(waveChannel);
+                var numStrums = 4 / bar.Chords.Count; // 4, 2 or 1
 
-                var format = waveChannel.WaveFormat;
-                var inputProvider = new AdvancedBufferedWaveProvider(format) {MaxQueuedBuffers = 100};
-
-                SetupSoundTouch(format);
-
-                // Here we set the tempo changes we want to apply...
-                _s.SetTempo(chord.NormalTempoDelta * tempoMultiplier);
-
-                var inputBuffer = new byte[BufferSamples * sizeof(float)];
-                var soundTouchOutBuffer = new byte[BufferSamples * sizeof(float)];
-                var convertInputBuffer = new ByteAndFloatsConverter { Bytes = inputBuffer };
-                var convertOutputBuffer = new ByteAndFloatsConverter { Bytes = soundTouchOutBuffer };
-                var outBufferSizeFloats = (uint)convertOutputBuffer.Bytes.Length / (uint)(sizeof(float) * format.Channels);
-                uint samplesProcessed = 0;
-
-                while (waveChannel.Position < waveChannel.Length)
+                foreach (var chord in bar.Chords)
                 {
-                    int bytesRead = waveChannel.Read(convertInputBuffer.Bytes, 0, convertInputBuffer.Bytes.Length);
-                    int floatsRead = bytesRead / ((sizeof(float)) * format.Channels);
+                    var waveChannel =
+                        GetWaveChannel(Resources.ResourceManager.GetStream(chord.GetAudioResourceName(numStrums),
+                            CultureInfo.InvariantCulture));
+                    InitializeEqualizerEffect(waveChannel);
 
-                    // Apply DSP effects here (preset equalizer settings)
+                    var format = waveChannel.WaveFormat;
+                    var inputProvider = new AdvancedBufferedWaveProvider(format) {MaxQueuedBuffers = 100};
 
-                    ApplyDspEffects(convertInputBuffer.Floats, floatsRead);
+                    SetupSoundTouch(format);
 
-                    if (waveChannel.CurrentTime >= waveChannel.TotalTime)
+                    // Here we set the tempo changes we want to apply...
+                    _s.SetTempo(chord.NormalTempoDelta*tempoMultiplier);
+
+                    var inputBuffer = new byte[BufferSamples * FloatSize];
+                    var soundTouchOutBuffer = new byte[BufferSamples * FloatSize];
+                    var convertInputBuffer = new ByteAndFloatsConverter {Bytes = inputBuffer};
+                    var convertOutputBuffer = new ByteAndFloatsConverter {Bytes = soundTouchOutBuffer};
+                    var outBufferSizeFloats = (uint) convertOutputBuffer.Bytes.Length / (uint) (FloatSize * format.Channels);
+                    uint samplesProcessed = 0;
+
+                    while (waveChannel.Position < waveChannel.Length)
                     {
-                        _s.Clear();
-                        _s.Flush();
-                        waveChannel.Flush();
+                        var bytesRead = waveChannel.Read(convertInputBuffer.Bytes, 0, convertInputBuffer.Bytes.Length);
+                        var floatsRead = bytesRead/(FloatSize * format.Channels);
 
-                        while (samplesProcessed != 0)
+                        // Apply DSP effects here (preset equalizer settings)
+                        ApplyDspEffects(convertInputBuffer.Floats, floatsRead);
+
+                        if (waveChannel.CurrentTime >= waveChannel.TotalTime)
                         {
+                            _s.Clear();
+                            _s.Flush();
+                            waveChannel.Flush();
+
+                            while (samplesProcessed != 0)
+                            {
+                                samplesProcessed = _s.ReceiveSamples(convertOutputBuffer.Floats, outBufferSizeFloats);
+
+                                if (samplesProcessed > 0)
+                                {
+                                    var currentBufferTime = waveChannel.CurrentTime;
+                                    inputProvider.AddSamples(convertOutputBuffer.Bytes, 0,
+                                        (int) samplesProcessed * FloatSize * format.Channels, currentBufferTime);
+                                }
+                            }
+                        }
+
+                        // Put samples into SoundTouch for processing...
+                        _s.PutSamples(convertInputBuffer.Floats, (uint) floatsRead);
+
+                        do
+                        {
+                            // Receive samples back from SoundTouch...
+                            // This is where Time Stretching and Pitch Changing are actually done...
                             samplesProcessed = _s.ReceiveSamples(convertOutputBuffer.Floats, outBufferSizeFloats);
 
                             if (samplesProcessed > 0)
                             {
                                 var currentBufferTime = waveChannel.CurrentTime;
-                                inputProvider.AddSamples(convertOutputBuffer.Bytes, 0, (int)samplesProcessed * sizeof(float) * format.Channels, currentBufferTime);
+                                inputProvider.AddSamples(convertOutputBuffer.Bytes, 0,
+                                    (int) samplesProcessed * FloatSize * format.Channels, currentBufferTime);
                             }
-                        }
+                        } while (samplesProcessed != 0);
                     }
 
-                    // Put samples into SoundTouch for processing...
-                    _s.PutSamples(convertInputBuffer.Floats, (uint)floatsRead);
-
-                    do
-                    {
-                        // Receive samples back from SoundTouch...
-                        // This is where Time Stretching and Pitch Changing are actually done...
-                        samplesProcessed = _s.ReceiveSamples(convertOutputBuffer.Floats, outBufferSizeFloats);
-
-                        if (samplesProcessed > 0)
-                        {
-                            var currentBufferTime = waveChannel.CurrentTime;
-                            inputProvider.AddSamples(convertOutputBuffer.Bytes, 0, (int)samplesProcessed * sizeof(float) * format.Channels, currentBufferTime);
-                        }
-                    } while (samplesProcessed != 0);
+                    inputProviders.Add(inputProvider);
                 }
-
-                inputProviders.Add(inputProvider);
             }
 
             _s.Dispose();
@@ -176,7 +184,7 @@ namespace EarTraining
             }
         }
 
-        private WaveChannel32 GetWaveChannel(UnmanagedMemoryStream stream)
+        private WaveChannel32 GetWaveChannel(Stream stream)
         {
             WaveStream waveStream = new WaveFileReader(stream);
 
@@ -214,7 +222,7 @@ namespace EarTraining
             _s.SetSetting(SoundTouchSharp.SoundTouchSettings.SETTING_SEEKWINDOW_MS, profile.SeekWindow);
         }
 
-        private void InitializeEqualizerEffect(WaveChannel32 waveChannel)
+        private void InitializeEqualizerEffect(IWaveProvider waveChannel)
         {
             // Initialize Equalizer
             _eqEffect = new EqualizerEffect {SampleRate = waveChannel.WaveFormat.SampleRate};
@@ -228,16 +236,16 @@ namespace EarTraining
             _eqEffect.OnFactorChanges();
         }
 
-        private void ApplyDspEffects(float[] buffer, int count)
+        private void ApplyDspEffects(IList<float> buffer, int count)
         {
-            int samples = count * 2;
+            var samples = count * 2;
 
             // Run each sample in the buffer through the equalizer effect
-            for (int sample = 0; sample < samples; sample += 2)
+            for (var sample = 0; sample < samples; sample += 2)
             {
                 // Get the samples, per audio channel
-                float sampleLeft = buffer[sample];
-                float sampleRight = buffer[sample + 1];
+                var sampleLeft = buffer[sample];
+                var sampleRight = buffer[sample + 1];
 
                 // Apply the equalizer effect to the samples
                 _eqEffect.Sample(ref sampleLeft, ref sampleRight);

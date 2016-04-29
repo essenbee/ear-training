@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\AdvancedBufferedWaveProvider.cs" />
+    <Compile Include="Classes\Bar.cs" />
     <Compile Include="Classes\Chord.cs" />
     <Compile Include="Classes\ChordLibrary.cs" />
     <Compile Include="Classes\ChordQuality.cs" />
@@ -85,8 +86,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CryptoRandom.cs" />
-    <Content Include="Dependencies\SoundTouch.Net.dll" />
-    <Content Include="Dependencies\SoundTouch.Net.pdb" />
     <Content Include="Sounds\Chords\Strum1\A7ChordSingleStrum.wav" />
     <Content Include="Sounds\Chords\Strum1\B7ChordSingleStrum.wav" />
     <Content Include="Sounds\Chords\Strum1\C7ChordSingleStrum.wav" />
