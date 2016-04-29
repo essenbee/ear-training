@@ -26,6 +26,7 @@ namespace EarTraining
         // Constants
         // =========
         private const int FloatSize = sizeof(float);
+        private const int StrumsInBar = 4;
 
         // Properties
         // ==========
@@ -51,11 +52,6 @@ namespace EarTraining
             HiDriveFactor = 30.0f;
             HiGainFactor = 0.0f;
         }
-
-        #endregion
-
-        #region Public Methods
-
         public Player(IEnumerable<Bar> chordProgression)
         {
             _chordProgression = chordProgression;
@@ -69,6 +65,9 @@ namespace EarTraining
             HiDriveFactor = 30.0f;
             HiGainFactor = 0.0f;
         }
+        #endregion
+
+        #region Public Methods
 
         public void PlayChords()
         {
@@ -93,7 +92,7 @@ namespace EarTraining
 
             foreach (var bar in chordProgression)
             {
-                var numStrums = 4 / bar.Chords.Count; // 4, 2 or 1
+                var numStrums = StrumsInBar / bar.Chords.Count; // 4, 2 or 1
 
                 foreach (var chord in bar.Chords)
                 {
@@ -125,7 +124,7 @@ namespace EarTraining
                         // Apply DSP effects here (preset equalizer settings)
                         ApplyDspEffects(convertInputBuffer.Floats, floatsRead);
 
-                        if (waveChannel.CurrentTime >= waveChannel.TotalTime)
+                        if (waveChannel.Position >= waveChannel.Length)
                         {
                             _s.Clear();
                             _s.Flush();

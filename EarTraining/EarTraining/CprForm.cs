@@ -173,6 +173,25 @@ namespace EarTraining
             {
                 chordPalette.Shuffle();
             }
+            var chordProgression = BuildChordProgression(chordPalette);
+            _prevQuestion = chordProgression;
+
+            try
+            {
+                var player = new Player(chordProgression);
+                player.PlayChords(Tempo);
+                play.Enabled = true;
+                repeat.Enabled = true;
+                reveal.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "CprForm.play_Click() :: EXCEPTION - ");
+            }
+        }
+
+        private List<Bar> BuildChordProgression(List<Chord> chordPalette)
+        {
             var chordProgression = new List<Bar>();
             var rng = new CryptoRandom();
 
@@ -187,7 +206,7 @@ namespace EarTraining
                     }
                     else if (_currentLevel.Equals(Level.Beginner))
                     {
-                        if (rnd > TwoChordsInBarProbabilityMultiplier * _currentStage)
+                        if (rnd > TwoChordsInBarProbabilityMultiplier*_currentStage)
                         {
                             OneChordInBar(rng, chordPalette, barNumber, chordProgression);
                         }
@@ -221,21 +240,7 @@ namespace EarTraining
                 lastBar.Chords.Add(lastChord);
                 chordProgression.Add(lastBar);
             }
-
-            _prevQuestion = chordProgression;
-
-            try
-            {
-                var player = new Player(chordProgression);
-                player.PlayChords(Tempo);
-                play.Enabled = true;
-                repeat.Enabled = true;
-                reveal.Enabled = true;
-            }
-            catch (Exception ex)
-            {
-                logger.Error(ex, "CprForm.play_Click() :: EXCEPTION - ");
-            }
+            return chordProgression;
         }
 
         private void OneChordInBar(CryptoRandom rng, IList<Chord> chordPalette, int barNumber, IList<Bar> chordProgression)
@@ -309,7 +314,7 @@ namespace EarTraining
             try
             {
                 var player = new Player(_prevQuestion);
-                player.PlayChords();
+                player.PlayChords(Tempo);
                 play.Enabled = true;
                 reveal.Enabled = true;
             }

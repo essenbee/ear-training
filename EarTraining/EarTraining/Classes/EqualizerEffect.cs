@@ -85,21 +85,19 @@ namespace EarTraining.Classes
 
         #region DSP Effect Factors
 
-        public DSPEffectFactor LoDriveFactor { get { return m_factors[0]; } }
-        public DSPEffectFactor LoGainFactor { get { return m_factors[1]; } }
-        public DSPEffectFactor MedDriveFactor { get { return m_factors[2]; } }
-        public DSPEffectFactor MedGainFactor { get { return m_factors[3]; } }
-        public DSPEffectFactor HiDriveFactor { get { return m_factors[4]; } }
-        public DSPEffectFactor HiGainFactor { get { return m_factors[5]; } }
-        public DSPEffectFactor LoMedFrequencyFactor { get { return m_factors[6]; } }
-        public DSPEffectFactor MedHiFrequencyFactor { get { return m_factors[7]; } }
+        public DSPEffectFactor LoDriveFactor => m_factors[0];
+        public DSPEffectFactor LoGainFactor => m_factors[1];
+        public DSPEffectFactor MedDriveFactor => m_factors[2];
+        public DSPEffectFactor MedGainFactor => m_factors[3];
+        public DSPEffectFactor HiDriveFactor => m_factors[4];
+        public DSPEffectFactor HiGainFactor => m_factors[5];
+        public DSPEffectFactor LoMedFrequencyFactor => m_factors[6];
+        public DSPEffectFactor MedHiFrequencyFactor => m_factors[7];
+
         #endregion
 
         #region Overrides
-        public override string Name
-        {
-            get { return "3 Band EQ"; }
-        }
+        public override string Name => "3 Band EQ";
 
         public override void OnFactorChanges()
         {
