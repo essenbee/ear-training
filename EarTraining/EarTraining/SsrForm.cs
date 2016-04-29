@@ -8,31 +8,22 @@ using NAudio.Wave;
 
 namespace EarTraining
 {
-    public partial class CprForm : Form
+    public partial class SsrForm : Form
     {
         // Private Variables
         // =================
         private static Logger logger = LogManager.GetCurrentClassLogger();
-        private List<Bar> _prevQuestion = null;
-        private List<Chord> _chordPalette = null;
+        private Chord _prevQuestion = null;
+        private IList<Chord> _chordPalette = null;
         private Level _currentLevel;
         private int _currentStage;
         private Guid _selectedSoundDevice = Guid.Empty;
 
         // Private Constants
         // =================
-        private const string BeginnerText1 = "You will hear a chord progression made up of 4 bars,\n" +
-            "each bar will be a chord strummed four times. Listen\n" +
-            "carefully and write down the chords you hear in order.\n" +
-            "Don't worry if you find it hard! Practise makes perfect.";
-        private const string BeginnerText2 = "You will hear a chord progression made up of 4 bars,\n" +
-            "but now you may get some bars that contain two chords!\n" +
-            "I am also going to play the chords a bit faster. This is a\n" +
-            "lot harder, but we are moving towards being able to transcribe\n" +
-            "actual songs, so stick with it!";
+        private const string BeginnerText1 = "Placeholder for Stages 1 - 4";
+        private const string BeginnerText2 = "Placeholder for Stages 5 - 7";
         private const string BeginnerText3 = "Placeholder for Stages 8+";
-        private const int MaxBars = 4;
-        private const int TwoChordsInBarProbabilityMultiplier = 5;
 
         // Properties
         private float Tempo
@@ -59,7 +50,7 @@ namespace EarTraining
             }
         }
 
-        public CprForm()
+        public SsrForm()
         {
             InitializeComponent();
             if (_prevQuestion == null)
@@ -182,136 +173,28 @@ namespace EarTraining
             {
                 chordPalette.Shuffle();
             }
-            var chordProgression = BuildChordProgression(chordPalette);
-            _prevQuestion = chordProgression;
+            var selectedChord = SelectChord(chordPalette);
+            _prevQuestion = selectedChord;
 
             try
             {
-                var player = new Player(chordProgression);
-                player.PlayChords(_selectedSoundDevice, Tempo);
+                var player = new Player();
+                player.PlayChord(selectedChord, _selectedSoundDevice, Tempo);
                 play.Enabled = true;
                 repeat.Enabled = true;
                 reveal.Enabled = true;
             }
             catch (Exception ex)
             {
-                logger.Error(ex, "SsrFirm.play_Click() :: EXCEPTION - ");
+                logger.Error(ex, "SsrForm.play_Click() :: EXCEPTION - ");
             }
         }
 
-        private List<Bar> BuildChordProgression(List<Chord> chordPalette)
+        private Chord SelectChord(IList<Chord> chordPalette)
         {
-            var chordProgression = new List<Bar>();
             var rng = new CryptoRandom();
-
-            if (chordPalette.Count > 4)
-            {
-                for (var barNumber = 0; barNumber < MaxBars; barNumber++)
-                {
-                    var rnd = rng.Next(1, 100);
-                    if (_currentLevel.Equals(Level.Beginner) && _currentStage < 5)
-                    {
-                        OneChordInBar(rng, chordPalette, barNumber, chordProgression);
-                    }
-                    else if (_currentLevel.Equals(Level.Beginner))
-                    {
-                        if (rnd > TwoChordsInBarProbabilityMultiplier * (_currentStage - 3))
-                        {
-                            OneChordInBar(rng, chordPalette, barNumber, chordProgression);
-                        }
-                        else
-                        {
-                            TwoChordsInBar(rng, chordPalette, barNumber, chordProgression);
-                        }
-                    }
-                    else
-                    {
-                        OneChordInBar(rng, chordPalette, barNumber, chordProgression);
-                        // TwoChordsInBar(rng, chordPalette, barNumber, chordProgression);
-                    }
-                }
-            }
-            else
-            {
-                // I want each chord in the progression once; there is no need
-                // to consider more than one chord per bar at Beginner Stage 1...
-                foreach (var chord in chordPalette)
-                {
-                    var aBar = new Bar();
-                    aBar.Chords.Add(chord);
-                    chordProgression.Add(aBar);
-                }
-
-                chordProgression.Shuffle();
-                var rnd = rng.Next(0, chordPalette.Count - 1);
-                var lastChord = chordPalette[rnd];
-                var lastBar = new Bar();
-                lastBar.Chords.Add(lastChord);
-                chordProgression.Add(lastBar);
-            }
-            return chordProgression;
-        }
-
-        private void OneChordInBar(CryptoRandom rng, IList<Chord> chordPalette, int barNumber, IList<Bar> chordProgression)
-        {
-            var thisBar = new Bar();
             var rnd = rng.Next(0, chordPalette.Count - 1);
-            if (barNumber != 0)
-            {
-                var previousBar = barNumber - 1;
-                var nextChord = chordPalette[rnd];
-                while (nextChord.Equals(chordProgression[previousBar].Chords.Last()))
-                {
-                    rnd = rng.Next(0, chordPalette.Count - 1);
-                    nextChord = chordPalette[rnd];
-                }
-
-                thisBar.Chords.Add(chordPalette[rnd]);
-                chordProgression.Add(thisBar);
-            }
-            else
-            {
-                thisBar.Chords.Add(chordPalette[rnd]);
-                chordProgression.Add(thisBar);
-            }
-        }
-
-        private void TwoChordsInBar(CryptoRandom rng, IList<Chord> chordPalette, int barNumber, IList<Bar> chordProgression)
-        {
-            var thisBar = new Bar();
-            var rnd = rng.Next(0, chordPalette.Count - 1);
-            for (var chordNum = 0; chordNum < 2; chordNum++)
-            {
-                if (chordNum != 0)
-                {
-                    var nextChord = chordPalette[rnd];
-                    while (nextChord.Equals(thisBar.Chords.First()))
-                    {
-                        rnd = rng.Next(0, chordPalette.Count - 1);
-                        nextChord = chordPalette[rnd];
-                    }
-
-                    thisBar.Chords.Add(chordPalette[rnd]);
-                }
-                else if (barNumber != 0)
-                {
-                    var previousBar = barNumber - 1;
-                    var nextChord = chordPalette[rnd];
-                    while (nextChord.Equals(chordProgression[previousBar].Chords.Last()))
-                    {
-                        rnd = rng.Next(0, chordPalette.Count - 1);
-                        nextChord = chordPalette[rnd];
-                    }
-
-                    thisBar.Chords.Add(chordPalette[rnd]);
-                }
-                else
-                {
-                    thisBar.Chords.Add(chordPalette[rnd]);
-                }
-            }
-
-            chordProgression.Add(thisBar);
+            return chordPalette[rnd];
         }
 
         private void repeat_Click(object sender, EventArgs e)
@@ -322,20 +205,20 @@ namespace EarTraining
 
             try
             {
-                var player = new Player(_prevQuestion);
-                player.PlayChords(_selectedSoundDevice, Tempo);
+                var player = new Player();
+                player.PlayChord(_prevQuestion, _selectedSoundDevice, Tempo);
                 play.Enabled = true;
                 reveal.Enabled = true;
             }
             catch (Exception ex)
             {
-                logger.Error(ex, "SsrFirm.repeat_Click() :: EXCEPTION - ");
+                logger.Error(ex, "SsrForm.repeat_Click() :: EXCEPTION - ");
             }
         }
 
         private void reveal_Click(object sender, EventArgs e)
         {
-            answer.Text = GetChordNames(_prevQuestion);
+            answer.Text = _prevQuestion.Name;
         }
 
         private void stage1RadioButton_CheckedChanged(object sender, EventArgs e)
@@ -486,18 +369,6 @@ namespace EarTraining
         private string GetChordNames(IEnumerable<Chord> chords)
         {
             var chordNames = chords.Aggregate(string.Empty, (current, chord) => current + (chord + ", "));
-            chordNames = chordNames.Remove(chordNames.Length - 2, 2);
-            return chordNames;
-        }
-        private string GetChordNames(IEnumerable<Bar> bars)
-        {
-            var chordNames = string.Empty;
-            foreach (var bar in bars)
-            {
-                chordNames = bar.Chords.Aggregate(chordNames, (current, chord) => current + (chord + " "));
-                chordNames += "| ";
-            }
-
             chordNames = chordNames.Remove(chordNames.Length - 2, 2);
             return chordNames;
         }

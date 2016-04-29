@@ -31,5 +31,11 @@ namespace EarTraining
             this.Close(); ;
 
         }
+
+        private void ssrButton_Click(object sender, EventArgs e)
+        {
+            var ssrForm = new SsrForm();
+            ssrForm.Show();
+        }
     }
 }

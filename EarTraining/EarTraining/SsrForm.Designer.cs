@@ -1,6 +1,6 @@
 ﻿namespace EarTraining
 {
-    partial class CprForm
+    partial class SsrForm
     {
         /// <summary>
         /// Required designer variable.
@@ -342,7 +342,7 @@
             this.label4.TabIndex = 25;
             this.label4.Text = "Playback Device";
             // 
-            // SsrFirm
+            // SsrForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -362,7 +362,7 @@
             this.Controls.Add(this.levelGroup);
             this.Controls.Add(this.stageGroupBox);
             this.Name = "SsrForm";
-            this.Text = "J.U.S.T.I.N. Chord Progression Recognition Training";
+            this.Text = "J.U.S.T.I.N. Single Sound Recognition Training";
             this.levelGroup.ResumeLayout(false);
             this.levelGroup.PerformLayout();
             this.stageGroupBox.ResumeLayout(false);

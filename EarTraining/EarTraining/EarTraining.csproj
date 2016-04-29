@@ -71,6 +71,12 @@
     <Compile Include="Classes\Level.cs" />
     <Compile Include="Classes\SoundTouchSharp.cs" />
     <Compile Include="Classes\TimeStretchProfile.cs" />
+    <Compile Include="SsrForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SsrForm.Designer.cs">
+      <DependentUpon>SsrForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="CprForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -115,6 +121,9 @@
     <Content Include="Sounds\Chords\Strum4\Fmaj7ChordFourStrums.wav" />
     <Content Include="Sounds\Chords\Strum4\G7ChordFourStrums.wav" />
     <Content Include="Sounds\Chords\Strum4\GChordFourStrums.wav" />
+    <EmbeddedResource Include="SsrForm.resx">
+      <DependentUpon>SsrForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CprForm.resx">
       <DependentUpon>CprForm.cs</DependentUpon>
     </EmbeddedResource>

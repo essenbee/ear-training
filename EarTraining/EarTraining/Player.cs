@@ -175,6 +175,80 @@ namespace EarTraining
 
         }
 
+        public void PlayChord(Chord chord, Guid deviceGuid, float tempoMultiplier)
+        {
+            _s.CreateInstance();
+            var waveChannel =
+                GetWaveChannel(Resources.ResourceManager.GetStream(chord.GetAudioResourceName(1),
+                    CultureInfo.InvariantCulture));
+            InitializeEqualizerEffect(waveChannel);
+
+            var format = waveChannel.WaveFormat;
+            var inputProvider = new AdvancedBufferedWaveProvider(format) { MaxQueuedBuffers = 100 };
+
+            SetupSoundTouch(format);
+
+            // Here we set the tempo changes we want to apply...
+            _s.SetTempo(chord.NormalTempoDelta * tempoMultiplier);
+
+            var inputBuffer = new byte[BufferSamples * FloatSize];
+            var soundTouchOutBuffer = new byte[BufferSamples * FloatSize];
+            var convertInputBuffer = new ByteAndFloatsConverter { Bytes = inputBuffer };
+            var convertOutputBuffer = new ByteAndFloatsConverter { Bytes = soundTouchOutBuffer };
+            var outBufferSizeFloats = (uint)convertOutputBuffer.Bytes.Length / (uint)(FloatSize * format.Channels);
+            uint samplesProcessed = 0;
+
+            while (waveChannel.Position < waveChannel.Length)
+            {
+                var bytesRead = waveChannel.Read(convertInputBuffer.Bytes, 0, convertInputBuffer.Bytes.Length);
+                var floatsRead = bytesRead / (FloatSize * format.Channels);
+
+                // Apply DSP effects here (preset equalizer settings)
+                ApplyDspEffects(convertInputBuffer.Floats, floatsRead);
+
+                if (waveChannel.Position >= waveChannel.Length)
+                {
+                    _s.Clear();
+                    _s.Flush();
+                    waveChannel.Flush();
+
+                    while (samplesProcessed != 0)
+                    {
+                        samplesProcessed = _s.ReceiveSamples(convertOutputBuffer.Floats, outBufferSizeFloats);
+
+                        if (samplesProcessed > 0)
+                        {
+                            var currentBufferTime = waveChannel.CurrentTime;
+                            inputProvider.AddSamples(convertOutputBuffer.Bytes, 0,
+                                (int)samplesProcessed * FloatSize * format.Channels, currentBufferTime);
+                        }
+                    }
+                }
+
+                // Put samples into SoundTouch for processing...
+                _s.PutSamples(convertInputBuffer.Floats, (uint)floatsRead);
+
+                do
+                {
+                    // Receive samples back from SoundTouch...
+                    // This is where Time Stretching and Pitch Changing are actually done...
+                    samplesProcessed = _s.ReceiveSamples(convertOutputBuffer.Floats, outBufferSizeFloats);
+
+                    if (samplesProcessed > 0)
+                    {
+                        var currentBufferTime = waveChannel.CurrentTime;
+                        inputProvider.AddSamples(convertOutputBuffer.Bytes, 0,
+                            (int)samplesProcessed * FloatSize * format.Channels, currentBufferTime);
+                    }
+                } while (samplesProcessed != 0);
+            }
+
+
+            _s.Dispose();
+            PlayUsingNAudio(inputProvider, deviceGuid);
+
+        }
+
         #endregion
 
         #region Private Methods

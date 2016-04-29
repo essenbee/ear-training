@@ -10,7 +10,7 @@ namespace EarTraining.Classes
 
         private const string Strums4 = "FourStrums";
         private const string Strums2 = "TwoStrums";
-        private const string Strums1 = "SingleStrums";
+        private const string Strums1 = "SingleStrum";
 
         public string GetAudioResourceName(int numStrums = 4)
         {

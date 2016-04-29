@@ -53,6 +53,7 @@
             this.ssrButton.TabIndex = 2;
             this.ssrButton.Text = "Single Sound Recognition";
             this.ssrButton.UseVisualStyleBackColor = true;
+            this.ssrButton.Click += new System.EventHandler(this.ssrButton_Click);
             // 
             // cqrButton
             // 
