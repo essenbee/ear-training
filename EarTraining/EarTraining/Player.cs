@@ -7,7 +7,6 @@ using System.IO;
 using NLog;
 using System.Collections.Generic;
 using System.Linq;
-using System;
 
 namespace EarTraining
 {
@@ -26,21 +25,31 @@ namespace EarTraining
 
         // Constants
         // =========
-        private const int Latency = 125;
-        // Preset Equalizer Settings
-        private const float DefaultLoDriveFactor = 75.0f;
-        private const float DefaultLoGainFactor = 0.0f;
-        private const float DefaultMedDriveFactor = 40.0f;
-        private const float DefaultMedGainFactor = 0.0f;
-        private const float DefaultHiDriveFactor = 30.0f;
-        private const float DefaultHiGainFactor = 0.0f;
         private const int FloatSize = sizeof(float);
+
+        // Properties
+        // ==========
+        public int Latency { get; set; }
+        public float LoDriveFactor { get; set; }
+        public float LoGainFactor { get; set; }
+        public float MedDriveFactor { get; set; }
+        public float MedGainFactor { get; set; }
+        public float HiDriveFactor { get; set; }
+        public float HiGainFactor { get; set; }
 
         #region Constructors
 
         public Player()
         {
             _s = new SoundTouchSharp();
+            Latency = 125;
+            // Preset Equalizer Settings
+            LoDriveFactor = 75.0f;
+            LoGainFactor = 0.0f;
+            MedDriveFactor = 40.0f;
+            MedGainFactor = 0.0f;
+            HiDriveFactor = 30.0f;
+            HiGainFactor = 0.0f;
         }
 
         #endregion
@@ -51,6 +60,14 @@ namespace EarTraining
         {
             _chordProgression = chordProgression;
             _s = new SoundTouchSharp();
+            Latency = 125;
+            // Preset Equalizer Settings
+            LoDriveFactor = 75.0f;
+            LoGainFactor = 0.0f;
+            MedDriveFactor = 40.0f;
+            MedGainFactor = 0.0f;
+            HiDriveFactor = 30.0f;
+            HiGainFactor = 0.0f;
         }
 
         public void PlayChords()
@@ -86,24 +103,24 @@ namespace EarTraining
                     InitializeEqualizerEffect(waveChannel);
 
                     var format = waveChannel.WaveFormat;
-                    var inputProvider = new AdvancedBufferedWaveProvider(format) {MaxQueuedBuffers = 100};
+                    var inputProvider = new AdvancedBufferedWaveProvider(format) { MaxQueuedBuffers = 100 };
 
                     SetupSoundTouch(format);
 
                     // Here we set the tempo changes we want to apply...
-                    _s.SetTempo(chord.NormalTempoDelta*tempoMultiplier);
+                    _s.SetTempo(chord.NormalTempoDelta * tempoMultiplier);
 
                     var inputBuffer = new byte[BufferSamples * FloatSize];
                     var soundTouchOutBuffer = new byte[BufferSamples * FloatSize];
-                    var convertInputBuffer = new ByteAndFloatsConverter {Bytes = inputBuffer};
-                    var convertOutputBuffer = new ByteAndFloatsConverter {Bytes = soundTouchOutBuffer};
-                    var outBufferSizeFloats = (uint) convertOutputBuffer.Bytes.Length / (uint) (FloatSize * format.Channels);
+                    var convertInputBuffer = new ByteAndFloatsConverter { Bytes = inputBuffer };
+                    var convertOutputBuffer = new ByteAndFloatsConverter { Bytes = soundTouchOutBuffer };
+                    var outBufferSizeFloats = (uint)convertOutputBuffer.Bytes.Length / (uint)(FloatSize * format.Channels);
                     uint samplesProcessed = 0;
 
                     while (waveChannel.Position < waveChannel.Length)
                     {
                         var bytesRead = waveChannel.Read(convertInputBuffer.Bytes, 0, convertInputBuffer.Bytes.Length);
-                        var floatsRead = bytesRead/(FloatSize * format.Channels);
+                        var floatsRead = bytesRead / (FloatSize * format.Channels);
 
                         // Apply DSP effects here (preset equalizer settings)
                         ApplyDspEffects(convertInputBuffer.Floats, floatsRead);
@@ -122,13 +139,13 @@ namespace EarTraining
                                 {
                                     var currentBufferTime = waveChannel.CurrentTime;
                                     inputProvider.AddSamples(convertOutputBuffer.Bytes, 0,
-                                        (int) samplesProcessed * FloatSize * format.Channels, currentBufferTime);
+                                        (int)samplesProcessed * FloatSize * format.Channels, currentBufferTime);
                                 }
                             }
                         }
 
                         // Put samples into SoundTouch for processing...
-                        _s.PutSamples(convertInputBuffer.Floats, (uint) floatsRead);
+                        _s.PutSamples(convertInputBuffer.Floats, (uint)floatsRead);
 
                         do
                         {
@@ -140,7 +157,7 @@ namespace EarTraining
                             {
                                 var currentBufferTime = waveChannel.CurrentTime;
                                 inputProvider.AddSamples(convertOutputBuffer.Bytes, 0,
-                                    (int) samplesProcessed * FloatSize * format.Channels, currentBufferTime);
+                                    (int)samplesProcessed * FloatSize * format.Channels, currentBufferTime);
                             }
                         } while (samplesProcessed != 0);
                     }
@@ -225,13 +242,13 @@ namespace EarTraining
         private void InitializeEqualizerEffect(IWaveProvider waveChannel)
         {
             // Initialize Equalizer
-            _eqEffect = new EqualizerEffect {SampleRate = waveChannel.WaveFormat.SampleRate};
-            _eqEffect.LoDriveFactor.Value = DefaultLoDriveFactor;
-            _eqEffect.LoGainFactor.Value = DefaultLoGainFactor;
-            _eqEffect.MedDriveFactor.Value = DefaultMedDriveFactor;
-            _eqEffect.MedGainFactor.Value = DefaultMedGainFactor;
-            _eqEffect.HiDriveFactor.Value = DefaultHiDriveFactor;
-            _eqEffect.HiGainFactor.Value = DefaultHiGainFactor;
+            _eqEffect = new EqualizerEffect { SampleRate = waveChannel.WaveFormat.SampleRate };
+            _eqEffect.LoDriveFactor.Value = LoDriveFactor;
+            _eqEffect.LoGainFactor.Value = LoGainFactor;
+            _eqEffect.MedDriveFactor.Value = MedDriveFactor;
+            _eqEffect.MedGainFactor.Value = MedGainFactor;
+            _eqEffect.HiDriveFactor.Value = HiDriveFactor;
+            _eqEffect.HiGainFactor.Value = HiGainFactor;
             _eqEffect.Init();
             _eqEffect.OnFactorChanges();
         }

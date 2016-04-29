@@ -9,27 +9,30 @@ namespace EarTraining
 {
     public partial class CprForm : Form
     {
+        // Private Variables
+        // =================
         private static Logger logger = LogManager.GetCurrentClassLogger();
         private List<Bar> _prevQuestion = null;
         private List<Chord> _chordPalette = null;
         private Level _currentLevel;
         private int _currentStage;
 
-
+        // Private Constants
+        // =================
         private const string BeginnerText1 = "You will hear a chord progression made up of 4 bars,\n" +
-                "each bar will be a chord strummed four times. Listen\n" +
-                "carefully and write down the chords you hear in order.\n" +
-                "Don't worry if you find it hard! Practise makes perfect.";
+            "each bar will be a chord strummed four times. Listen\n" +
+            "carefully and write down the chords you hear in order.\n" +
+            "Don't worry if you find it hard! Practise makes perfect.";
         private const string BeginnerText2 = "You will hear a chord progression made up of 4 bars,\n" +
             "but now you may get some bars that contain two chords!\n" +
             "I am also going to play the chords a bit faster. This is a\n" +
             "lot harder, but we are moving towards being able to transcribe\n" +
             "actual songs, so stick with it!";
         private const string BeginnerText3 = "Placeholder for Stages 8+";
-
         private const int MaxBars = 4;
         private const int TwoChordsInBarProbabilityMultiplier = 2;
 
+        // Properties
         private float Tempo
         {
             get
